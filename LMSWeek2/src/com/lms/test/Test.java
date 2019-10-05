@@ -10,7 +10,7 @@ public class Test {
 	public static void main(String[] args) {
 		Connection con = null;
 		try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Iamsherlocked#2.0");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","**********");
             
             MainMenu mainMenu = new MainMenu();
     		mainMenu.showMenu(con);
