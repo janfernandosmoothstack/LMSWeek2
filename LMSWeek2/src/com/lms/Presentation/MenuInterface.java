@@ -1,11 +1,12 @@
 package com.lms.Presentation;
 
+import java.sql.Connection;
 import java.util.Scanner;
 
 public interface MenuInterface {
 	public static Scanner input = new Scanner(System.in);
 	
-	public void showMenu();
+	public void showMenu(Connection con);
 	
 	public static void crudMenu() {
 		String menu = 
