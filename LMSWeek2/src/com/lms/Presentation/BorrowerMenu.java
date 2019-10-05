@@ -1,7 +1,9 @@
 package com.lms.Presentation;
 
+import java.sql.Connection;
+
 public class BorrowerMenu implements MenuInterface {
-	public void showMenu() {
+	public void showMenu(Connection con) {
 		String choice = "";
 		
 		do {
@@ -16,19 +18,19 @@ public class BorrowerMenu implements MenuInterface {
 				
 				switch(choice) {
 					case "1": //Create
-						toCreate();
+						toCreate(con);
 						checkChoice = true;
 						break;
 					case "2": //Update
-						toUpdate();
+						toUpdate(con);
 						checkChoice = true;
 						break;
 					case "3": //Delete
-						toDelete();
+						toDelete(con);
 						checkChoice = true;
 						break;
 					case "4": //View
-						toView();
+						toView(con);
 						checkChoice = true;
 						break;
 					case "5": //Exit
@@ -41,7 +43,7 @@ public class BorrowerMenu implements MenuInterface {
 		}while(choice != "5");
 	}
 	
-	public void toCreate() {
+	public void toCreate(Connection con) {
 		System.out.println("\nPlease enter the borrower card No.:");
 		int borrCardNo = MenuInterface.readInt();
 		//validate id
@@ -58,7 +60,7 @@ public class BorrowerMenu implements MenuInterface {
 		//call create method in service
 	}
 	
-	public void toUpdate() {
+	public void toUpdate(Connection con) {
 		System.out.println("\nPlease enter the borrower card No.:");
 		int borrCardNo = MenuInterface.readInt();
 		//validate id
@@ -75,7 +77,7 @@ public class BorrowerMenu implements MenuInterface {
 		//Call update method in service
 	}
 	
-	public void toDelete(){
+	public void toDelete(Connection con){
 		System.out.println("\nPlease enter the borrower card No.:");
 		int borrCardNo = MenuInterface.readInt();
 		//validate id
@@ -83,7 +85,7 @@ public class BorrowerMenu implements MenuInterface {
 		//Call delete method
 	}
 	
-	public void toView() {
+	public void toView(Connection con) {
 		
 	}
 }

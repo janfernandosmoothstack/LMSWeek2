@@ -1,6 +1,9 @@
 package com.lms.Presentation;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public interface MenuInterface {
@@ -23,6 +26,7 @@ public interface MenuInterface {
 	
 	public static int readInt() {
 		int inputNum = input.nextInt();
+		input.nextLine();
 		return inputNum;
 	}
 	
@@ -30,4 +34,35 @@ public interface MenuInterface {
 		String inputString = input.nextLine();
 		return inputString;
 	}
+	
+	public static void cont() {
+		System.out.println("\nPress any key to continue...");
+		String key = readString();
+		return;
+	}
+	
+	public static boolean ifExists (Connection con, int Id, String sql) {
+		PreparedStatement ps = null;
+		boolean checkId = false;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, Id);
+			ResultSet rs = ps.executeQuery();
+			
+			//if that ID exists in that table
+			if(rs.next()) {
+				System.out.println("ID already exists.");
+			} else {
+				checkId = true;
+			}
+			
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		
+		return checkId;
+	}
+	
+	//public static boolean ifNotExists(Connection con, int Id, String sql)
 }

@@ -1,7 +1,9 @@
 package com.lms.Presentation;
 
+import java.sql.Connection;
+
 public class AdminMenu implements MenuInterface {
-	public void showMenu() {
+	public void showMenu(Connection con) {
 		String choice = "";
 		
 		do {
@@ -27,31 +29,31 @@ public class AdminMenu implements MenuInterface {
 				switch(choice) {
 					case "1": //Book
 						BookMenu bookMenu = new BookMenu();
-						bookMenu.showMenu();
+						bookMenu.showMenu(con);
 						
 						checkChoice = true;
 						break;
 					case "2": //Author
 						AuthorMenu authorMenu = new AuthorMenu();
-						authorMenu.showMenu();
+						authorMenu.showMenu(con);
 						
 						checkChoice = true;
 						break;
 					case "3": //Publisher
 						PublisherMenu pubMenu = new PublisherMenu();
-						pubMenu.showMenu();
+						pubMenu.showMenu(con);
 						
 						checkChoice = true;
 						break;
 					case "4": //Library Branch
 						LibraryBranchMenu libBranMenu = new LibraryBranchMenu();
-						libBranMenu.showMenu();
+						libBranMenu.showMenu(con);
 						
 						checkChoice = true;
 						break;
 					case "5": //Borrower
 						BorrowerMenu borrowerMenu = new BorrowerMenu();
-						borrowerMenu.showMenu();
+						borrowerMenu.showMenu(con);
 						
 						checkChoice = true;
 						break;

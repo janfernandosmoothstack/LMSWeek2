@@ -1,7 +1,9 @@
 package com.lms.Presentation;
 
+import java.sql.Connection;
+
 public class BookMenu implements MenuInterface{
-	public void showMenu() {
+	public void showMenu(Connection con) {
 		String choice = "";
 		
 		do {
@@ -37,7 +39,7 @@ public class BookMenu implements MenuInterface{
 		}while(choice != "5");
 	}
 	
-	public void toCreate() {
+	public void toCreate(Connection con) {
 		System.out.println("\nPlease enter the author ID:");
 		int authorId = MenuInterface.readInt();
 		//validate id
@@ -48,7 +50,7 @@ public class BookMenu implements MenuInterface{
 		//call create method in service
 	}
 	
-	public void toUpdate() {
+	public void toUpdate(Connection con) {
 		System.out.println("\nPlease enter the author ID:");
 		int authorId = MenuInterface.readInt();
 		//validate id
@@ -59,7 +61,7 @@ public class BookMenu implements MenuInterface{
 		//Call update method in service
 	}
 	
-	public void toDelete(){
+	public void toDelete(Connection con){
 		System.out.println("\nPlease enter the author ID:");
 		int authorId = MenuInterface.readInt();
 		//validate id
@@ -67,7 +69,7 @@ public class BookMenu implements MenuInterface{
 		//Call delete method
 	}
 	
-	public void toView() {
+	public void toView(Connection con) {
 		
 	}
 }

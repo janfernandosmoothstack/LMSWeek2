@@ -1,7 +1,16 @@
 package com.lms.Presentation;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.lms.Service.AuthorService;
+
 public class AuthorMenu implements MenuInterface {
-	public void showMenu() {
+	AuthorService authService = new AuthorService();
+	
+	public void showMenu(Connection con) {
 		String choice = "";
 		
 		do {
@@ -16,19 +25,19 @@ public class AuthorMenu implements MenuInterface {
 				
 				switch(choice) {
 					case "1": //Create
-						toCreate();
+						toCreate(con);
 						checkChoice = true;
 						break;
 					case "2": //Update
-						toUpdate();
+						toUpdate(con);
 						checkChoice = true;
 						break;
 					case "3": //Delete
-						toDelete();
+						toDelete(con);
 						checkChoice = true;
 						break;
 					case "4": //View
-						toView();
+						toView(con);
 						checkChoice = true;
 						break;
 					case "5": //Exit
@@ -41,18 +50,30 @@ public class AuthorMenu implements MenuInterface {
 		}while(choice != "5");
 	}
 	
-	public void toCreate() {
-		System.out.println("\nPlease enter the author ID:");
-		int authorId = MenuInterface.readInt();
-		//validate id
+	public void toCreate(Connection con) {
+		boolean checkId  = false;
+		int authorId = 0;
+		String authorName = "";
+		
+		//ID Validation
+		while(checkId != true) {
+			System.out.println("\nPlease enter the author ID:");
+			authorId = MenuInterface.readInt();
+			
+			String sql = "SELECT authorId FROM tbl_author "
+					+ "WHERE authorId = ?";
+			
+			checkId = MenuInterface.ifExists(con, authorId, sql);
+		}
 		
 		System.out.println("Please enter the author's name:");
-		String authorName = MenuInterface.readString();
+		authorName = MenuInterface.readString();
 		
-		//call create method in service
+		authService.createAuthor(con, authorId, authorName);
+		MenuInterface.cont();
 	}
 	
-	public void toUpdate() {
+	public void toUpdate(Connection con) {
 		System.out.println("\nPlease enter the author ID:");
 		int authorId = MenuInterface.readInt();
 		//validate id
@@ -60,10 +81,11 @@ public class AuthorMenu implements MenuInterface {
 		System.out.println("Please enter the new author's name:");
 		String authorName = MenuInterface.readString();
 		
-		//Call update method in service
+		authService.updateAuthor(con, authorId, authorName);
+		MenuInterface.cont();
 	}
 	
-	public void toDelete(){
+	public void toDelete(Connection con){
 		System.out.println("\nPlease enter the author ID:");
 		int authorId = MenuInterface.readInt();
 		//validate id
@@ -71,7 +93,8 @@ public class AuthorMenu implements MenuInterface {
 		//Call delete method
 	}
 	
-	public void toView() {
-		
+	public void toView(Connection con) {
+		authService.viewAuthor(con);
+		MenuInterface.cont();
 	}
 }

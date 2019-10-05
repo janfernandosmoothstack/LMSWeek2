@@ -1,7 +1,9 @@
 package com.lms.Presentation;
 
+import java.sql.Connection;
+
 public class MainMenu implements MenuInterface{
-	public void showMenu() {
+	public void showMenu(Connection con) {
 		String choice = "";
 		
 		do {
@@ -30,7 +32,7 @@ public class MainMenu implements MenuInterface{
 						break;
 					case "3": //Admin
 						AdminMenu admin = new AdminMenu();
-						admin.showMenu();
+						admin.showMenu(con);
 						
 						checkChoice = true;
 						break;
