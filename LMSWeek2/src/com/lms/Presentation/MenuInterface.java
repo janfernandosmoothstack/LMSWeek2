@@ -12,7 +12,7 @@ public interface MenuInterface {
 				"1. Create\n" +
 				"2. Update\n" +
 				"3. Delete\n" +
-				"4. View" +
+				"4. View\n" +
 				"5. Exit\n" +
 				"\n" +
 				"Please select an option(1-3):";

@@ -6,8 +6,8 @@ public class BookLoans {
 	Book book = new Book();
 	LibraryBranch branch = new LibraryBranch();
 	Borrower borrower = new Borrower();
-	private LocalDateTime dateOut = LocalDateTime.now();
-	private LocalDateTime dueDate = dateOut.plusDays(7);
+	private LocalDateTime dateOut;
+	private LocalDateTime dueDate;
 	
 	public BookLoans() {
 		
