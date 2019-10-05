@@ -55,13 +55,13 @@ public class AuthorMenu implements MenuInterface {
 		int authorId = 0;
 		String authorName = "";
 		
-		//ID Validation
+		//Validate ID
 		while(checkId != true) {
 			System.out.println("\nPlease enter the author ID:");
 			authorId = MenuInterface.readInt();
 			
 			String sql = "SELECT authorId FROM tbl_author "
-					+ "WHERE authorId = ?";
+							+ "WHERE authorId = ?";
 			
 			checkId = MenuInterface.ifExists(con, authorId, sql);
 		}
@@ -78,12 +78,13 @@ public class AuthorMenu implements MenuInterface {
 		int authorId = 0;
 		String authorName = "";
 		
+		//Validate ID
 		while(checkId != true) {
 			System.out.println("\nPlease enter the author ID:");
 			authorId = MenuInterface.readInt();
 			
 			String sql = "SELECT authorId FROM tbl_author "
-					+ "WHERE authorId = ?";
+							+ "WHERE authorId = ?";
 			
 			checkId = MenuInterface.ifNotExists(con, authorId, sql);
 		}

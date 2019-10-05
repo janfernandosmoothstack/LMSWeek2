@@ -2,7 +2,12 @@ package com.lms.Presentation;
 
 import java.sql.Connection;
 
+import com.lms.Service.AuthorService;
+import com.lms.Service.PublisherService;
+
 public class PublisherMenu implements MenuInterface{
+	PublisherService pubService = new PublisherService();
+	
 	public void showMenu(Connection con) {
 		String choice = "";
 		
@@ -44,37 +49,64 @@ public class PublisherMenu implements MenuInterface{
 	}
 	
 	public void toCreate(Connection con) {
-		System.out.println("\nPlease enter the publisher ID:");
-		int pubId = MenuInterface.readInt();
-		//validate id
+		boolean checkId  = false;
+		int pubId = 0;
+		String pubName = "";
+		String pubAddress ="";
+		String pubPhone = "";
+		
+		//Validate ID
+		while(checkId != true) {
+			System.out.println("\nPlease enter the publisher ID:");
+			pubId = MenuInterface.readInt();
+			
+			String sql = "SELECT publisherId FROM tbl_Publisher "
+							+ "WHERE publisherId = ?";
+			
+			checkId = MenuInterface.ifExists(con, pubId, sql);
+		}
 		
 		System.out.println("Please enter the publisher's name:");
-		String pubName = MenuInterface.readString();
+		pubName = MenuInterface.readString();
 		
 		System.out.println("Please enter the publisher's address:");
-		String pubAdress = MenuInterface.readString();
+		pubAddress = MenuInterface.readString();
 		
 		System.out.println("Please enter the publisher's phone number:");
-		String pubPhone = MenuInterface.readString();
+		pubPhone = MenuInterface.readString();
 		
-		//call create method in service
+		pubService.createPub(con, pubId, pubName, pubAddress, pubPhone);
+		MenuInterface.cont();
 	}
 	
 	public void toUpdate(Connection con) {
-		System.out.println("\nPlease enter the publisher ID:");
-		int pubId = MenuInterface.readInt();
-		//validate id
+		boolean checkId  = false;
+		int pubId = 0;
+		String pubName = "";
+		String pubAddress ="";
+		String pubPhone = "";
+		
+		while(checkId != true){
+			System.out.println("\nPlease enter the publisher ID:");
+			pubId = MenuInterface.readInt();
+			
+			String sql = "SELECT publisherId FROM tbl_Publisher "
+							+ "WHERE publisherId = ?";
+			
+			checkId = MenuInterface.ifNotExists(con, pubId, sql);
+		}
 		
 		System.out.println("Please enter the new publisher's name:");
-		String pubName = MenuInterface.readString();
+		pubName = MenuInterface.readString();
 		
 		System.out.println("Please enter the new publisher's address:");
-		String pubAdress = MenuInterface.readString();
+		pubAddress = MenuInterface.readString();
 		
 		System.out.println("Please enter the new publisher's phone number:");
-		String pubPhone = MenuInterface.readString();
+		pubPhone = MenuInterface.readString();
 		
-		//Call update method in service
+		pubService.updatePub(con, pubId, pubName, pubAddress, pubPhone);
+		MenuInterface.cont();
 	}
 	
 	public void toDelete(Connection con){
@@ -86,6 +118,7 @@ public class PublisherMenu implements MenuInterface{
 	}
 	
 	public void toView(Connection con) {
-		
+		pubService.viewPub(con);
+		MenuInterface.cont();
 	}
 }

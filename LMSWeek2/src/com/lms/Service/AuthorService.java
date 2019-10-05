@@ -12,7 +12,7 @@ public class AuthorService {
 	public void createAuthor(Connection con, int authorId, String authorName) {
 		authorDAO.writeAuthor(con, authorId, authorName);
 		
-		System.out.println("\nAuthor created successfully!!!");
+		System.out.println("\nAuthor created successfully.");
 	}
 	
 	public void updateAuthor(Connection con, int authorId, String authorName) {
@@ -28,7 +28,7 @@ public class AuthorService {
 			ps.setInt(2, authorId);
 			ps.executeUpdate();
 			
-		 	System.out.println("\nAuthor updated successfully!!!");
+		 	System.out.println("\nAuthor updated successfully.");
 		 	
 		} catch (SQLException e) {
 			System.out.println(e);
