@@ -64,5 +64,26 @@ public interface MenuInterface {
 		return checkId;
 	}
 	
-	//public static boolean ifNotExists(Connection con, int Id, String sql)
+	public static boolean ifNotExists(Connection con, int Id, String sql) {
+		PreparedStatement ps = null;
+		boolean checkId = false;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, Id);
+			ResultSet rs = ps.executeQuery();
+			
+			//if that ID exists in that table
+			if(rs.next()) {
+				checkId = true;
+			} else {
+				System.out.println("ID does not exists.");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		
+		return checkId;
+	}
 }

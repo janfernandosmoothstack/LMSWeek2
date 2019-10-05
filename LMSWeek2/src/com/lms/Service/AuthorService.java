@@ -7,30 +7,15 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.lms.DAO.AuthorDAO;
+
 public class AuthorService {
+	AuthorDAO authorDAO = new AuthorDAO();
+	
 	public void createAuthor(Connection con, int authorId, String authorName) {
-		PreparedStatement ps = null;
+		authorDAO.writeAuthor(con, authorId, authorName);
 		
-		try {
-			String sql = "INSERT INTO tbl_author "
-							+ "VALUES (?, ?)";
-			
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, authorId);
-			ps.setString(2, authorName);
-			ps.executeUpdate();
-			
-		 	System.out.println("\nAuthor created successfully!!!");
-		 	
-		} catch (SQLException e) {
-			System.out.println(e);
-		} finally {
-			try {
-				ps.close();
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
-		}
+		System.out.println("\nAuthor created successfully!!!");
 	}
 	
 	public void updateAuthor(Connection con, int authorId, String authorName) {
@@ -42,8 +27,8 @@ public class AuthorService {
 							+ "WHERE authorId = ?";
 			
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, authorId);
-			ps.setString(2, authorName);
+			ps.setString(1, authorName);
+			ps.setInt(2, authorId);
 			ps.executeUpdate();
 			
 		 	System.out.println("\nAuthor updated successfully!!!");
@@ -64,27 +49,6 @@ public class AuthorService {
 	}
 	
 	public void viewAuthor(Connection con) {
-		try {
-			String sql = "SELECT * FROM tbl_author";
-	        
-	        Statement stmt = con.createStatement();
-	        ResultSet rs = stmt.executeQuery(sql);
-	        ResultSetMetaData rsmd = rs.getMetaData();
-	        int columnsNumber = rsmd.getColumnCount();
-	        
-	        System.out.println("ID\tAuthor Name");
-	    
-	        while (rs.next()) {
-	            //Print one row
-	            for(int i = 1 ; i <= columnsNumber; i++) {
-	            	System.out.print(rs.getString(i) + "\t "); //Print one element of a row
-	            }
-	              	
-	            System.out.println();//Move to the next line to print the next row.
-	    	}
-	        
-		} catch (SQLException e) {
-			System.out.print(e);
-		}
+		authorDAO.readAuthor(con);
 	}
 }

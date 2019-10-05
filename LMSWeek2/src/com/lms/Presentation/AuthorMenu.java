@@ -74,12 +74,22 @@ public class AuthorMenu implements MenuInterface {
 	}
 	
 	public void toUpdate(Connection con) {
-		System.out.println("\nPlease enter the author ID:");
-		int authorId = MenuInterface.readInt();
-		//validate id
+		boolean checkId  = false;
+		int authorId = 0;
+		String authorName = "";
+		
+		while(checkId != true) {
+			System.out.println("\nPlease enter the author ID:");
+			authorId = MenuInterface.readInt();
+			
+			String sql = "SELECT authorId FROM tbl_author "
+					+ "WHERE authorId = ?";
+			
+			checkId = MenuInterface.ifNotExists(con, authorId, sql);
+		}
 		
 		System.out.println("Please enter the new author's name:");
-		String authorName = MenuInterface.readString();
+		authorName = MenuInterface.readString();
 		
 		authService.updateAuthor(con, authorId, authorName);
 		MenuInterface.cont();
@@ -97,4 +107,6 @@ public class AuthorMenu implements MenuInterface {
 		authService.viewAuthor(con);
 		MenuInterface.cont();
 	}
+	
+	
 }
