@@ -2,12 +2,16 @@ package com.lms.Presentation;
 
 import java.sql.Connection;
 
+import com.lms.Service.BorrowerService;
+
 public class BorrowerMenu implements MenuInterface {
+	BorrowerService borrService = new BorrowerService();
+	
 	public void showMenu(Connection con) {
 		String choice = "";
 		
 		do {
-			System.out.println("Borrower Menu");
+			System.out.println("\nBorrower Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -44,37 +48,67 @@ public class BorrowerMenu implements MenuInterface {
 	}
 	
 	public void toCreate(Connection con) {
-		System.out.println("\nPlease enter the borrower card No.:");
-		int borrCardNo = MenuInterface.readInt();
-		//validate id
+		boolean checkId  = false;
+		int cardNo = 0;
+		String name = "";
+		String address ="";
+		String phone = "";
+		
+		while(checkId != true) {
+			System.out.println("\nPlease enter the borrower card No.:");
+			cardNo = MenuInterface.readInt();
+			//validate id
+			
+			String sql = "SELECT cardNo FROM tbl_borrower "
+					+ "WHERE cardNo = ?";
+	
+			checkId = MenuInterface.ifExists(con, cardNo, sql);
+		}
 		
 		System.out.println("Please enter the borrower's name:");
-		String borrName = MenuInterface.readString();
+		name = MenuInterface.readString();
 		
 		System.out.println("Please enter the borrower's address:");
-		String borrAdress = MenuInterface.readString();
+		address = MenuInterface.readString();
 		
 		System.out.println("Please enter the borrower's phone number:");
-		String borrPhone = MenuInterface.readString();
+		phone = MenuInterface.readString();
 		
-		//call create method in service
+		borrService.createBorr(con, cardNo, name, address, phone);
+		MenuInterface.cont();
 	}
 	
 	public void toUpdate(Connection con) {
-		System.out.println("\nPlease enter the borrower card No.:");
-		int borrCardNo = MenuInterface.readInt();
-		//validate id
+		boolean checkId  = false;
+		int cardNo = 0;
+		String name = "";
+		String address ="";
+		String phone = "";
+		
+		System.out.println();
+		borrService.viewBorr(con);
+		
+		while(checkId != true) {
+			System.out.println("\nPlease enter the borrower card No.:");
+			cardNo = MenuInterface.readInt();
+			
+			String sql = "SELECT cardNo FROM tbl_borrower "
+					+ "WHERE cardNo = ?";
+	
+			checkId = MenuInterface.ifNotExists(con, cardNo, sql);
+		}
 		
 		System.out.println("Please enter the new borrower's name:");
-		String borrName = MenuInterface.readString();
+		name = MenuInterface.readString();
 		
 		System.out.println("Please enter the new borrower's address:");
-		String borrAdress = MenuInterface.readString();
+		address = MenuInterface.readString();
 		
 		System.out.println("Please enter the new borrower's phone number:");
-		String borrPhone = MenuInterface.readString();
+		phone = MenuInterface.readString();
 		
-		//Call update method in service
+		borrService.updateBorr(con, cardNo, name, address, phone);
+		MenuInterface.cont();
 	}
 	
 	public void toDelete(Connection con){
@@ -86,6 +120,8 @@ public class BorrowerMenu implements MenuInterface {
 	}
 	
 	public void toView(Connection con) {
-		
+		System.out.println();
+		borrService.viewBorr(con);
+		MenuInterface.cont();
 	}
 }

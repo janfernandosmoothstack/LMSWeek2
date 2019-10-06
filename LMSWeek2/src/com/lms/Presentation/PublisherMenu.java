@@ -12,7 +12,7 @@ public class PublisherMenu implements MenuInterface{
 		String choice = "";
 		
 		do {
-			System.out.println("Publisher Menu");
+			System.out.println("\nPublisher Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -60,7 +60,7 @@ public class PublisherMenu implements MenuInterface{
 			System.out.println("\nPlease enter the publisher ID:");
 			pubId = MenuInterface.readInt();
 			
-			String sql = "SELECT publisherId FROM tbl_Publisher "
+			String sql = "SELECT publisherId FROM tbl_publisher "
 							+ "WHERE publisherId = ?";
 			
 			checkId = MenuInterface.ifExists(con, pubId, sql);
@@ -86,11 +86,14 @@ public class PublisherMenu implements MenuInterface{
 		String pubAddress ="";
 		String pubPhone = "";
 		
+		System.out.println();
+		pubService.viewPub(con);
+		
 		while(checkId != true){
 			System.out.println("\nPlease enter the publisher ID:");
 			pubId = MenuInterface.readInt();
 			
-			String sql = "SELECT publisherId FROM tbl_Publisher "
+			String sql = "SELECT publisherId FROM tbl_publisher "
 							+ "WHERE publisherId = ?";
 			
 			checkId = MenuInterface.ifNotExists(con, pubId, sql);
@@ -118,6 +121,7 @@ public class PublisherMenu implements MenuInterface{
 	}
 	
 	public void toView(Connection con) {
+		System.out.println();
 		pubService.viewPub(con);
 		MenuInterface.cont();
 	}

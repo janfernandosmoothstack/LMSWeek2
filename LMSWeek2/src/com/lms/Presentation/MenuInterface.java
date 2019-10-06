@@ -19,7 +19,7 @@ public interface MenuInterface {
 				"4. View\n" +
 				"5. Exit\n" +
 				"\n" +
-				"Please select an option(1-3):";
+				"Please select an option(1-5):";
 		
 		System.out.println(menu);
 	}

@@ -14,7 +14,7 @@ public class AuthorMenu implements MenuInterface {
 		String choice = "";
 		
 		do {
-			System.out.println("Author Menu");
+			System.out.println("\nAuthor Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -78,6 +78,9 @@ public class AuthorMenu implements MenuInterface {
 		int authorId = 0;
 		String authorName = "";
 		
+		System.out.println();
+		authService.viewAuthor(con);
+		
 		//Validate ID
 		while(checkId != true) {
 			System.out.println("\nPlease enter the author ID:");
@@ -105,6 +108,7 @@ public class AuthorMenu implements MenuInterface {
 	}
 	
 	public void toView(Connection con) {
+		System.out.println();
 		authService.viewAuthor(con);
 		MenuInterface.cont();
 	}

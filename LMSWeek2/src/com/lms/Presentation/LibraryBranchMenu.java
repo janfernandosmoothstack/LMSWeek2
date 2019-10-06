@@ -2,12 +2,16 @@ package com.lms.Presentation;
 
 import java.sql.Connection;
 
+import com.lms.Service.LibBranService;
+
 public class LibraryBranchMenu implements MenuInterface {
+	LibBranService libBranServ = new LibBranService();
+	
 	public void showMenu(Connection con) {
 		String choice = "";
 		
 		do {
-			System.out.println("Library Branch Menu");
+			System.out.println("\nLibrary Branch Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -44,31 +48,58 @@ public class LibraryBranchMenu implements MenuInterface {
 	}
 	
 	public void toCreate(Connection con) {
-		System.out.println("\nPlease enter the library branch ID:");
-		int libBranId = MenuInterface.readInt();
-		//validate id
+		boolean checkId  = false;
+		int libBranId = 0;
+		String libBranName = "";
+		String libBranAdress ="";
+		
+		while(checkId != true) {
+			System.out.println("\nPlease enter the library branch ID:");
+			libBranId = MenuInterface.readInt();
+			
+			String sql = "SELECT branchId FROM tbl_library_branch "
+					+ "WHERE branchId = ?";
+	
+			checkId = MenuInterface.ifExists(con, libBranId, sql);
+		}
 		
 		System.out.println("Please enter the library branch's name:");
-		String libBranName = MenuInterface.readString();
+		libBranName = MenuInterface.readString();
 		
 		System.out.println("Please enter the library branch's address:");
-		String libBranAdress = MenuInterface.readString();
+		libBranAdress = MenuInterface.readString();
 		
-		//call create method in service
+		libBranServ.createLibBran(con, libBranId, libBranName, libBranAdress);
+		MenuInterface.cont();
 	}
 	
 	public void toUpdate(Connection con) {
-		System.out.println("\nPlease enter the library branch ID:");
-		int libBranId = MenuInterface.readInt();
-		//validate id
+		boolean checkId  = false;
+		int libBranId = 0;
+		String libBranName = "";
+		String libBranAdress ="";
+		
+		System.out.println();
+		libBranServ.viewLibBran(con);
+		
+		while(checkId != true) {
+			System.out.println("\nPlease enter the library branch ID:");
+			libBranId = MenuInterface.readInt();
+			
+			String sql = "SELECT branchId FROM tbl_library_branch "
+					+ "WHERE branchId = ?";
+	
+			checkId = MenuInterface.ifNotExists(con, libBranId, sql);
+		}
 		
 		System.out.println("Please enter the new library branch's name:");
-		String libBranName = MenuInterface.readString();
+		libBranName = MenuInterface.readString();
 		
 		System.out.println("Please enter the new library branch's address:");
-		String libBranAdress = MenuInterface.readString();
+		libBranAdress = MenuInterface.readString();
 		
-		//Call update method in service
+		libBranServ.updateLibBran(con, libBranId, libBranName, libBranAdress);
+		MenuInterface.cont();
 	}
 	
 	public void toDelete(Connection con){
@@ -80,6 +111,8 @@ public class LibraryBranchMenu implements MenuInterface {
 	}
 	
 	public void toView(Connection con) {
-		
+		System.out.println();
+		libBranServ.viewLibBran(con);
+		MenuInterface.cont();
 	}
 }

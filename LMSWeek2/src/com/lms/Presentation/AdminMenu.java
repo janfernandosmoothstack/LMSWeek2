@@ -16,7 +16,7 @@ public class AdminMenu implements MenuInterface {
 					"6. Override Due Date\n" +
 					"7. Exit\n" +
 					"\n" +
-					"Please select an option(1-3):";
+					"Please select an option(1-7):";
 			
 			System.out.println(menu);
 			

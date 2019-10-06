@@ -7,17 +7,18 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class AuthorDAO {
-	public void writeAuthor(Connection con, int authorId, String authorName) {
+public class LibBranchDAO {
+	public void writeLibBran(Connection con, int branchId, String branchName, String branchAddress) {
 		PreparedStatement ps = null;
 		
 		try {
-			String sql = "INSERT INTO tbl_author "
-							+ "VALUES (?, ?)";
+			String sql = "INSERT INTO tbl_library_branch "
+							+ "VALUES (?, ?, ?)";
 			
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, authorId);
-			ps.setString(2, authorName);
+			ps.setInt(1, branchId);
+			ps.setString(2, branchName);
+			ps.setString(3, branchAddress);
 			ps.executeUpdate();
 		 	
 		} catch (SQLException e) {
@@ -31,16 +32,16 @@ public class AuthorDAO {
 		}
 	}
 	
-	public void readAuthor(Connection con) {
+	public void readLibBran(Connection con) {
 		try {
-			String sql = "SELECT * FROM tbl_author";
+			String sql = "SELECT * FROM tbl_library_branch";
 	        
 	        Statement stmt = con.createStatement();
 	        ResultSet rs = stmt.executeQuery(sql);
 	        ResultSetMetaData rsmd = rs.getMetaData();
 	        int columnsNumber = rsmd.getColumnCount();
 	        
-	        System.out.println("ID\t\tAuthor Name");
+	        System.out.println("ID\t\tName\t\t\tAddress");
 	    
 	        while (rs.next()) {
 	            //Print one row

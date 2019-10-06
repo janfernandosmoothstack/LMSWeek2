@@ -13,7 +13,7 @@ public class MainMenu implements MenuInterface{
 					"3. Admin\n" +
 					"4. Exit\n" +
 					"\n" +
-					"Please select an option(1-3):";
+					"Please select an option(1-4):";
 			
 			System.out.println(menu);
 			
