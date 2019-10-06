@@ -7,6 +7,8 @@ public class AdminMenu implements MenuInterface {
 		String choice = "";
 		
 		do {
+			MenuInterface.clr();
+			
 			String menu = "Admin Menu\n" +
 					"1. Book\n" +
 					"2. Author\n" +

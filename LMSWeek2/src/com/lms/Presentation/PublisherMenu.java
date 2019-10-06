@@ -2,17 +2,17 @@ package com.lms.Presentation;
 
 import java.sql.Connection;
 
-import com.lms.Service.AuthorService;
 import com.lms.Service.PublisherService;
 
 public class PublisherMenu implements MenuInterface{
 	PublisherService pubService = new PublisherService();
+	String choice = "";
 	
 	public void showMenu(Connection con) {
-		String choice = "";
-		
 		do {
-			System.out.println("\nPublisher Menu");
+			MenuInterface.clr();
+			
+			System.out.println("Publisher Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -49,7 +49,7 @@ public class PublisherMenu implements MenuInterface{
 	}
 	
 	public void toCreate(Connection con) {
-		boolean checkId  = false;
+		boolean checkId = false;
 		int pubId = 0;
 		String pubName = "";
 		String pubAddress ="";
@@ -102,22 +102,53 @@ public class PublisherMenu implements MenuInterface{
 		System.out.println("Please enter the new publisher's name:");
 		pubName = MenuInterface.readString();
 		
+		if(!pubName.equalsIgnoreCase("N/A")) {
+			pubService.updatePub(con, pubId, pubName, "publisherName");
+		}	
+		
 		System.out.println("Please enter the new publisher's address:");
 		pubAddress = MenuInterface.readString();
+		
+		if(!pubAddress.equalsIgnoreCase("N/A")) {
+			pubService.updatePub(con, pubId, pubAddress, "publisherAddress");
+		}
 		
 		System.out.println("Please enter the new publisher's phone number:");
 		pubPhone = MenuInterface.readString();
 		
-		pubService.updatePub(con, pubId, pubName, pubAddress, pubPhone);
+		if(!pubPhone.equalsIgnoreCase("N/A")) {
+			pubService.updatePub(con, pubId, pubPhone, "publisherPhone");
+		}
+		
+		System.out.println("\nPublisher updated successfully.");
 		MenuInterface.cont();
 	}
 	
 	public void toDelete(Connection con){
-		System.out.println("\nPlease enter the publisher ID:");
-		int pubId = MenuInterface.readInt();
-		//validate id
+		boolean checkId  = false;
+		int pubId = 0;
 		
-		//Call delete method
+		System.out.println();
+		pubService.viewPub(con);
+		
+		while(checkId != true){
+			System.out.println("\nPlease enter the publisher ID:");
+			pubId = MenuInterface.readInt();
+			
+			String sql = "SELECT publisherId FROM tbl_publisher "
+							+ "WHERE publisherId = ?";
+			
+			checkId = MenuInterface.ifNotExists(con, pubId, sql);
+		}
+		
+		System.out.println("Warning: Deleting this publisher will delete all the books associated to it.");
+		System.out.println("Enter Y to continue and N to go back to the previous menu:");
+		choice = MenuInterface.readString();
+		
+		if(choice.equals("Y") || choice.equals("y")) {
+			pubService.deletePub(con, pubId);
+			MenuInterface.cont();
+		}
 	}
 	
 	public void toView(Connection con) {

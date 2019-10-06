@@ -11,7 +11,9 @@ public class BorrowerMenu implements MenuInterface {
 		String choice = "";
 		
 		do {
-			System.out.println("\nBorrower Menu");
+			MenuInterface.clr();
+			
+			System.out.println("Borrower Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;

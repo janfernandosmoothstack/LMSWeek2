@@ -1,5 +1,6 @@
 package com.lms.Presentation;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -85,5 +86,12 @@ public interface MenuInterface {
 		}
 		
 		return checkId;
+	}
+	
+	public static void clr() {  
+	    try {
+	    	new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+	    } catch(IOException | InterruptedException E) {
+	    }
 	}
 }

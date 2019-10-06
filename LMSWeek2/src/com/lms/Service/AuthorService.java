@@ -41,8 +41,36 @@ public class AuthorService {
 		}
 	}
 	
-	public void deleteAuthor() {
+	public void deleteAuthor(Connection con, int authorId) {
+		PreparedStatement ps = null;
 		
+		try {
+			String sql = "DELETE FROM tbl_book "
+							+ "WHERE authId = ?";
+			
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, authorId);
+			ps.executeUpdate();
+			ps.close();
+			
+			sql = "DELETE FROM tbl_author "
+					+ "WHERE authorId = ?";
+			
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, authorId);
+			ps.executeUpdate();
+			
+		 	System.out.println("\nAuthor deleted successfully.");
+		 	
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				System.out.println(e);
+			}
+		}
 	}
 	
 	public void viewAuthor(Connection con) {

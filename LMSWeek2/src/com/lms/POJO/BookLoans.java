@@ -1,19 +1,15 @@
 package com.lms.POJO;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class BookLoans {
 	Book book = new Book();
 	LibraryBranch branch = new LibraryBranch();
 	Borrower borrower = new Borrower();
-	private LocalDateTime dateOut;
-	private LocalDateTime dueDate;
+	private Date dateOut;
+	private Date dueDate;
 	
-	public BookLoans() {
-		
-	}
-	
-	public BookLoans(Book book, LibraryBranch branch, Borrower borrower, LocalDateTime dateOut, LocalDateTime dueDate) {
+	public BookLoans(Book book, LibraryBranch branch, Borrower borrower, Date dateOut, Date dueDate) {
 		this.book = book;
 		this.branch = branch;
 		this.borrower = borrower;
@@ -45,19 +41,19 @@ public class BookLoans {
 		this.borrower = borrower;
 	}
 
-	public LocalDateTime getDateOut() {
+	public Date getDateOut() {
 		return dateOut;
 	}
 
-	public void setDateOut(LocalDateTime dateOut) {
+	public void setDateOut(Date dateOut) {
 		this.dateOut = dateOut;
 	}
 
-	public LocalDateTime getDueDate() {
+	public Date getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(LocalDateTime dueDate) {
+	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
 }

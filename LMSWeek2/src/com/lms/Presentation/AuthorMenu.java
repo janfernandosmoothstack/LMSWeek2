@@ -1,20 +1,18 @@
 package com.lms.Presentation;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import com.lms.Service.AuthorService;
 
 public class AuthorMenu implements MenuInterface {
 	AuthorService authService = new AuthorService();
+	String choice = "";
 	
 	public void showMenu(Connection con) {
-		String choice = "";
-		
 		do {
-			System.out.println("\nAuthor Menu");
+			MenuInterface.clr();
+			
+			System.out.println("Author Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -92,19 +90,41 @@ public class AuthorMenu implements MenuInterface {
 			checkId = MenuInterface.ifNotExists(con, authorId, sql);
 		}
 		
-		System.out.println("Please enter the new author's name:");
+		System.out.println("Please enter the new author's name or N/A for no change:");
 		authorName = MenuInterface.readString();
 		
-		authService.updateAuthor(con, authorId, authorName);
-		MenuInterface.cont();
+		if(!authorName.equalsIgnoreCase("N/A")) {
+			authService.updateAuthor(con, authorId, authorName);
+			MenuInterface.cont();
+		}
 	}
 	
 	public void toDelete(Connection con){
-		System.out.println("\nPlease enter the author ID:");
-		int authorId = MenuInterface.readInt();
-		//validate id
+		boolean checkId  = false;
+		int authorId = 0;
 		
-		//Call delete method
+		System.out.println();
+		authService.viewAuthor(con);
+		
+		//Validate ID
+		while(checkId != true) {
+			System.out.println("\nPlease enter the author ID:");
+			authorId = MenuInterface.readInt();
+			
+			String sql = "SELECT authorId FROM tbl_author "
+							+ "WHERE authorId = ?";
+			
+			checkId = MenuInterface.ifNotExists(con, authorId, sql);
+		}
+		
+		System.out.println("Warning: Deleting this author will delete all the books associated to it.");
+		System.out.println("Enter Y to continue and N to go back to the previous menu:");
+		choice = MenuInterface.readString();
+		
+		if(choice.equals("Y") || choice.equals("y")) {
+			authService.deleteAuthor(con, authorId);
+			MenuInterface.cont();
+		}
 	}
 	
 	public void toView(Connection con) {
@@ -112,6 +132,4 @@ public class AuthorMenu implements MenuInterface {
 		authService.viewAuthor(con);
 		MenuInterface.cont();
 	}
-	
-	
 }

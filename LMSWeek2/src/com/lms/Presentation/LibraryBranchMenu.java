@@ -11,7 +11,9 @@ public class LibraryBranchMenu implements MenuInterface {
 		String choice = "";
 		
 		do {
-			System.out.println("\nLibrary Branch Menu");
+			MenuInterface.clr();
+			
+			System.out.println("Library Branch Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;

@@ -7,6 +7,8 @@ public class MainMenu implements MenuInterface{
 		String choice = "";
 		
 		do {
+			MenuInterface.clr();
+			
 			String menu = "LMS Login\n" +
 					"1. Librarian\n" +
 					"2. Borrower\n" +
@@ -25,6 +27,8 @@ public class MainMenu implements MenuInterface{
 				
 				switch(choice) {
 					case "1": //Librarian
+						//LibrarianMenu librarian = new LibrarianMenu();
+						//librarian.showMenu();
 						checkChoice = true;
 						break;
 					case "2": //Borrower
