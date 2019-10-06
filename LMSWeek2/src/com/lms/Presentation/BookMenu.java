@@ -3,13 +3,14 @@ package com.lms.Presentation;
 import java.sql.Connection;
 
 import com.lms.Service.BookService;
+import com.lms.Service.LoansService;
 
 public class BookMenu implements MenuInterface{
 	BookService bookService = new BookService();
+	LoansService loanServ = new LoansService();
+	String choice = "";
 	
 	public void showMenu(Connection con) {
-		String choice = "";
-		
 		do {
 			MenuInterface.clr();
 			
@@ -130,11 +131,31 @@ public class BookMenu implements MenuInterface{
 	}
 	
 	public void toDelete(Connection con){
-		System.out.println("\nPlease enter the author ID:");
-		int authorId = MenuInterface.readInt();
-		//validate id
+		boolean checkId = false;
+		int bookId = 0;
 		
-		//Call delete method
+		while(checkId != true) {
+			System.out.println("\nPlease enter the book ID:");
+			bookId = MenuInterface.readInt();
+	
+			checkId = MenuInterface.ifNotExists(con, bookId, "bookId", "tbl_book");
+		}
+		
+		checkId = loanServ.loansExist(con, bookId, "bookId");
+		
+		if(checkId == true) {
+			System.out.println("Warning: This book is currently loaned out.");
+			System.out.println("Enter Y to continue and N to go back to the previous menu:");
+			choice = MenuInterface.readString();
+			
+			if(choice.equalsIgnoreCase("Y")) {
+				bookService.deleteBook(con, bookId);
+				MenuInterface.cont();
+			}
+		} else {
+			bookService.deleteBook(con, bookId);
+			MenuInterface.cont();
+		}
 	}
 	
 	public void toView(Connection con) {

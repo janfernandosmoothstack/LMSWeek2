@@ -43,7 +43,7 @@ public interface MenuInterface {
 	}
 	
 	//Makes sure the ID does not exist
-	public static boolean ifExists (Connection con, int Id, String idFieldName, String tblName) {
+	public static boolean ifExists (Connection con, int id, String idFieldName, String tblName) {
 		PreparedStatement ps = null;
 		boolean checkId = false;
 		
@@ -52,7 +52,7 @@ public interface MenuInterface {
 					+ " WHERE " + idFieldName + " = ?";
 			
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, Id);
+			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			
 			//if that ID exists in that table
@@ -70,7 +70,7 @@ public interface MenuInterface {
 	}
 	
 	//Makes sure the ID exists
-	public static boolean ifNotExists(Connection con, int Id, String idFieldName, String tblName) {
+	public static boolean ifNotExists(Connection con, int id, String idFieldName, String tblName) {
 		PreparedStatement ps = null;
 		boolean checkId = false;
 		
@@ -79,7 +79,7 @@ public interface MenuInterface {
 					+ " WHERE " + idFieldName + " = ?";
 			
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, Id);
+			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			
 			//if that ID exists in that table

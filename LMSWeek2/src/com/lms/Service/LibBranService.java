@@ -17,11 +17,22 @@ public class LibBranService {
 		libBranDAO.writeUpdateLibBran(con, branchId, newData, fieldName);
 	}
 	
-	public void deleteLibBran() {
+	public void deleteLibBran(Connection con, int libBranId) {
+		libBranDAO.writeDeleteLibBran(con, libBranId);
 		
+		System.out.println("\nLibrary Branch deleted successfully.");
 	}
 	
 	public void viewLibBran(Connection con) {
 		libBranDAO.readViewLibBran(con);
+	}
+	
+	//View available branches to dispatch books to
+	public void viewDispatchBran(Connection con, int libBranId) {
+		libBranDAO.readDispatchBran(con, libBranId);
+	}
+	
+	public void dispatch(Connection con, int libBranId, int newBranId) {
+		libBranDAO.dispatchBooks(con, libBranId, newBranId);
 	}
 }

@@ -108,6 +108,7 @@ public class LibraryBranchMenu implements MenuInterface {
 	public void toDelete(Connection con){
 		boolean checkId  = false;
 		int libBranId = 0;
+		int newBranId = 0;
 		
 		System.out.println();
 		libBranServ.viewLibBran(con);
@@ -120,11 +121,29 @@ public class LibraryBranchMenu implements MenuInterface {
 		}
 		
 		System.out.println("Warning: You are about to delete a library branch...");
+		
 		String menu = "1. Dispatch books to another branch\n" + 
-						"2. Delete books associated with library branch\n" +
+						"2. Delete book copies associated with library branch\n" +
 						"\n" +
 						"Please select an option(1-2):";
+		
+		System.out.println(menu);
 		choice = MenuInterface.readString();
+		System.out.println();
+		
+		if (choice.equals("1")) {
+			libBranServ.viewDispatchBran(con, libBranId);
+			
+			System.out.println("\nWhich branch would you like to dispatch the books to?");
+			newBranId = MenuInterface.readInt();
+			
+			libBranServ.dispatch(con, libBranId, newBranId); //dispatch books to new branch
+			libBranServ.deleteLibBran(con, libBranId); //delete library branch
+		} else if (choice.equals("2")) {
+			libBranServ.deleteLibBran(con, libBranId);
+		}
+		
+		MenuInterface.cont();
 	}
 	
 	public void toView(Connection con) {

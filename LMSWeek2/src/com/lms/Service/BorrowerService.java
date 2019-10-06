@@ -17,8 +17,10 @@ public class BorrowerService {
 		borrDAO.writeUpdateBorr(con, cardNo, newData, fieldName);
 	}
 	
-	public void deleteBorr() {
+	public void deleteBorr(Connection con, int cardNo) {
+		borrDAO.writeDeleteBorr(con, cardNo);
 		
+		System.out.println("\nBorrower deleted successfully.");
 	}
 	
 	public void viewBorr(Connection con) {

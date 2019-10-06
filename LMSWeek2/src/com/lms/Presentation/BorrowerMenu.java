@@ -3,13 +3,14 @@ package com.lms.Presentation;
 import java.sql.Connection;
 
 import com.lms.Service.BorrowerService;
+import com.lms.Service.LoansService;
 
 public class BorrowerMenu implements MenuInterface {
 	BorrowerService borrService = new BorrowerService();
+	LoansService loanServ = new LoansService();
+	String choice = "";
 	
 	public void showMenu(Connection con) {
-		String choice = "";
-		
 		do {
 			MenuInterface.clr();
 			
@@ -119,11 +120,34 @@ public class BorrowerMenu implements MenuInterface {
 	}
 	
 	public void toDelete(Connection con){
-		System.out.println("\nPlease enter the borrower card No.:");
-		int borrCardNo = MenuInterface.readInt();
-		//validate id
+		boolean checkId  = false;
+		int cardNo = 0;
 		
-		//Call delete method
+		System.out.println();
+		borrService.viewBorr(con);
+		
+		while(checkId != true) {
+			System.out.println("\nPlease enter the borrower card No.:");
+			cardNo = MenuInterface.readInt();
+	
+			checkId = MenuInterface.ifNotExists(con, cardNo, "cardNo", "tbl_borrower");
+		}
+		
+		checkId = loanServ.loansExist(con, cardNo, "cardNo");
+		
+		if(checkId == true) {
+			System.out.println("Warning: This borrower has book loans.");
+			System.out.println("Enter Y to continue and N to go back to the previous menu:");
+			choice = MenuInterface.readString();
+			
+			if(choice.equalsIgnoreCase("Y")) {
+				borrService.deleteBorr(con, cardNo);
+				MenuInterface.cont();
+			}
+		} else {
+			borrService.deleteBorr(con, cardNo);
+			MenuInterface.cont();
+		}
 	}
 	
 	public void toView(Connection con) {

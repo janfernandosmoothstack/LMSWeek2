@@ -17,8 +17,10 @@ public class BookService {
 		bookDAO.writeUpdateBook(con, bookId, newData, fieldName);
 	}
 	
-	public void deleteBook() {
+	public void deleteBook(Connection con, int bookId) {
+		bookDAO.writeDeleteBook(con, bookId);
 		
+		System.out.println("\nBook deleted successfully.");
 	}
 	
 	public void viewBook(Connection con) {

@@ -29,9 +29,13 @@ public class MainMenu implements MenuInterface{
 					case "1": //Librarian
 						//LibrarianMenu librarian = new LibrarianMenu();
 						//librarian.showMenu();
+						
 						checkChoice = true;
 						break;
 					case "2": //Borrower
+						//BorrowerUserMenu borrower = new BorrowerUserMenu();
+			            //borrower.readCardNo(con);
+			               
 						checkChoice = true;
 						break;
 					case "3": //Admin

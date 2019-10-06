@@ -43,6 +43,10 @@ public class BookDAO extends DAO{
 		super.updateString(con, bookId, newData, fieldName, "bookId", "tbl_book");
 	}
 	
+	public void writeDeleteBook(Connection con, int bookId) {
+		super.delete(con, bookId, "bookId", "tbl_book");
+	}
+	
 	public void readViewBook(Connection con) {
 		try {
 			String sql = "SELECT * FROM tbl_book";

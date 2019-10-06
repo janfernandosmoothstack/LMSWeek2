@@ -41,8 +41,8 @@ public class BorrowerDAO extends DAO {
 		super.updateString(con, cardNo, newData, fieldName, "cardNo", "tbl_borrower");
 	}
 	
-	public void writeDeleteBorr() {
-		
+	public void writeDeleteBorr(Connection con, int cardNo) {
+		super.delete(con, cardNo, "cardNo", "tbl_borrower");
 	}
 	
 	public void readViewBorr(Connection con) {
