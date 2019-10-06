@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.sql.PreparedStatement;
 
@@ -34,11 +35,16 @@ public class BorrowerUserMenu {
 					readCardNo(con);
 				}
 		}
-		   catch(Exception e)
+		   catch(SQLException e)
         {
             System.out.println(e);
 		
 		}
+		catch (InputMismatchException e) {
+		 System.out.println("Please Enter a numeric value: ");
+		 return;
+		}
+
 	}
 	
 	//borrower main menu
