@@ -24,6 +24,7 @@ public interface MenuInterface {
 	
 	public static int readInt() {
 		int inputNum = input.nextInt();
+		input.nextLine();
 		return inputNum;
 	}
 	
