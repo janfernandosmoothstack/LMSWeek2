@@ -5,12 +5,12 @@ import java.util.Calendar;
 import com.lms.Presentation.BorrowerUserMenu;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+import  java.sql.Date;
 public class LoansDAO {
 	
 	public void writeLoans(Connection con, int cardNo, int bhId, int bkId) {
 		 Calendar c = Calendar.getInstance();
-	        java.sql.Date startDate = new java.sql.Date(c.getTime().getTime());
+		Date startDate = new Date(c.getTime().getTime());
 		PreparedStatement ps = null;
 		
 		try {
@@ -24,6 +24,9 @@ public class LoansDAO {
 			ps.setDate(4,  startDate);
 			ps.setDate(5, startDate);
 			ps.executeUpdate();
+
+			System.out.println ("You were able to sucessfully checkout a book.");
+			System.out.println ("");
 			BorrowerUserMenu.showMenu(con, cardNo);
 		 	
 		} catch (SQLException e) {

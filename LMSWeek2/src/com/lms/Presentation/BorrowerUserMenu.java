@@ -2,15 +2,19 @@ package com.lms.Presentation;
 
 import java.sql.Connection;
 import com.lms.DAO.LoansDAO;
+import com.lms.POJO.*;
 import com.lms.Service.BorrowerService;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.PreparedStatement;
 
 public class BorrowerUserMenu {
 	static LoansDAO loans = new LoansDAO();
 	static BorrowerService transaction = new BorrowerService();
+	static MainMenu main = new MainMenu();
 	
 	//gets card no
 	public void readCardNo(Connection con) {
@@ -64,7 +68,7 @@ public class BorrowerUserMenu {
 						break;
 					
 					case 3:
-					//takes to Main Menu
+						main.showMenu(con);
 						return;
 						
 					default:
@@ -81,51 +85,44 @@ public class BorrowerUserMenu {
         try {
             Statement st = con.createStatement();
            ResultSet rs = st.executeQuery("select branchId, branchName from tbl_library_branch");
-           System.out.println("Branch ID \t Branch Name");
+           System.out.println(" Branch Name");
            
+           List<LibraryBranch> branch = new ArrayList<LibraryBranch>();
+           int count = 1;
            while (rs.next())
              {
-                 //Print one row
-                 for(int i = 1 ; i <= 2; i++)
+               LibraryBranch lb = new LibraryBranch();
+                        lb.setBranchId(rs.getInt("branchId"));
+                        lb.setBranchName(rs.getString("branchName"));
+                         branch.add(lb);
+                        System.out.println(count + ") " + rs.getString("branchName"));
+                         count++;
+             }           
+           System.out.println(count + ") Quit to previous \n");
+           boolean check = false;
+           while(check!=true)
+           {
+                System.out.println("Please select the ID of the branch: ");
+                
+                int input = MenuInterface.readInt();
+                
+                if(input < (count))
+                {
+                    int bhId = branch.get(input-1).getBranchId();
+                    check = true;
+                    displayBranchBook(con, cardNo,  bhId);
+                }
+                 if (input == count)
                  {
-                       System.out.print(rs.getString(i) + "\t\t "); //Print one element of a row
+                        check = true;
+                        showMenu(con, cardNo);
                  }
-                   System.out.println();//Move to the next line to print the next row.
+                    else
+                    {
+                        System.out.println("Invalid selection, Please try again! Press '"+ count +"' to exit\n");
+                    }
              }
-           
-           System.out.println("0)Quit to cancel operation ");
-           
-           System.out.print("Pick the Branch Id you want to checkout from:  " );
-    		 int bhId = MenuInterface.readInt();
-    		 
-    		 
-    		 PreparedStatement ps = null;
-    		//validation if branchId  exists
-    			try {
-    					ps = con.prepareStatement("SELECT branchId FROM tbl_library_branch WHERE branchId = ? ");
-    					ps.setInt (1, bhId);
-    					rs = ps.executeQuery();
-    					if (rs.next()) {
-    						displayBranchBook(con, cardNo,  bhId);
-    					} else {
-    						System.out.println("Invalid input ");
-    						 showMenu(con, cardNo);
-    					}
-    			}
-    			   catch(Exception e)
-    	        {
-    	            System.out.println(e);
-    			
-    			}
-    		 
-    		 if (bhId == 0) {
-    			 showMenu(con, cardNo);
-    		 }
-    		 else {
-    			 displayBranchBook(con, cardNo, bhId); 
-    		 }
-                              
-        } 
+        }
         catch (SQLException e) {
             e.printStackTrace();
         }
@@ -135,41 +132,55 @@ public class BorrowerUserMenu {
 	
 	// checkout book-list
 		public static void displayBranchBook(Connection con, int cardNo, int bhId) {
-	        try {
-	           PreparedStatement ps = con.prepareStatement("SELECT tbl_book.bookId, CONCAT(tbl_book.title, ' by ' , tbl_author.authorName)  FROM tbl_book INNER JOIN tbl_author ON tbl_book.authId = tbl_author.authorId INNER JOIN tbl_book_copies ON tbl_book.bookId =  tbl_book_copies.bookId INNER JOIN tbl_library_branch ON tbl_book_copies.branchId = tbl_library_branch.branchId WHERE tbl_library_branch.branchId = ? AND tbl_book_copies.noOfCopies >=1 ");
-	           ps.setInt (1, bhId);
-	           ResultSet rs = ps.executeQuery();
+			
+			 try {
+				 PreparedStatement ps = con.prepareStatement("SELECT tbl_book.bookId, CONCAT(tbl_book.title, ' by ' , tbl_author.authorName) AS title  FROM tbl_book INNER JOIN tbl_author ON tbl_book.authId = tbl_author.authorId INNER JOIN tbl_book_copies ON tbl_book.bookId =  tbl_book_copies.bookId INNER JOIN tbl_library_branch ON tbl_book_copies.branchId = tbl_library_branch.branchId WHERE tbl_library_branch.branchId = ? AND tbl_book_copies.noOfCopies >=1 ");
+		           ps.setInt (1, bhId);
+		           ResultSet rs = ps.executeQuery();
 
-	           System.out.println("Book ID \t Book name by Author");
-	           while (rs.next())
-	             {
-	                 //Print one row
-	                 for(int i = 1 ; i <= 2; i++)
-	                 {
-	                       System.out.print(rs.getString(i) + "\t\t "); //Print one element of a row
-	                 }
-	                   System.out.println();//Move to the next line to print the next row.
-	             }
-	           System.out.println("0-> Quit to cancel operation ");
-	           System.out.print("Pick the Book Id you want to checkout:  " );
-	    		 int bkId = MenuInterface.readInt();
-	    		 
-	    		 if (bkId == 0) {
-	    			 
-	    			 showMenu(con, cardNo);
-	    		 }
-	    		 else {
-	    			
-	    			 validateCheckout(con, cardNo, bhId, bkId);
-	    			 System.out.print("Checkout sucessful!" );
-	    		 }
-	                              
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	        System.out.println("Book ID \t Book name by Author");
-	          
-	    }
+		           List<Book> book = new ArrayList<Book>();
+		           int count = 1;
+		           while (rs.next())
+		             {
+		               Book b = new Book();
+		                        b.setBookId(rs.getInt("bookId"));
+		                        b.setTitle(rs.getString("title"));
+		                         book.add(b);
+		                        System.out.println(count + ") " + rs.getString("title"));
+		                         count++;
+		             }           
+		           System.out.println(count + ") Quit to previous \n");
+		           boolean check = false;
+		           while(check!=true)
+		           {
+		                System.out.println("Please select the ID of the book you want to checkout: ");
+		                
+		                int input = MenuInterface.readInt();
+		                
+		                if(input < (count))
+		                {
+		                    int bkId = book.get(input-1).getBookId();
+		                    check = true;
+			    			 validateCheckout(con, cardNo, bhId, bkId);
+		                }
+		                 if (input == count)
+		                 {
+		                        check = true;
+		                        showMenu(con, cardNo);
+		                 }
+		                    else
+		                    {
+		                        System.out.println("Invalid selection, Please try again! Press '"+ count +"' to exit\n");
+		                    }
+		             }
+		        }
+		        catch (SQLException e) {
+		            e.printStackTrace();
+		        }
+			
+			
+			
+		}
 		
 		//final checkout after selecting book
 		public static void validateCheckout( Connection con, int cardNo, int  bhId, int bkId) {
@@ -188,7 +199,6 @@ public class BorrowerUserMenu {
 					} else {
 						transaction.checkoutService(con,  bhId, bkId ) ;
 						loans.writeLoans(con, cardNo, bhId, bkId);
-						System.out.println ("You were able to sucessfully checkout a book.");
 					}
 			}
 			   catch(Exception e)
@@ -203,56 +213,52 @@ public class BorrowerUserMenu {
 	//return branch menu
 	public static void displayBranchReturn(Connection con, int cardNo) {
 		
-        try {
+		try {
             Statement st = con.createStatement();
            ResultSet rs = st.executeQuery("select branchId, branchName from tbl_library_branch");
-           System.out.println("Branch ID \t Branch Name");
+           System.out.println(" Branch Name");
            
+           List<LibraryBranch> branch = new ArrayList<LibraryBranch>();
+           int count = 1;
            while (rs.next())
              {
-                 //Print one row
-                 for(int i = 1 ; i <= 2; i++)
+               LibraryBranch lb = new LibraryBranch();
+                        lb.setBranchId(rs.getInt("branchId"));
+                        lb.setBranchName(rs.getString("branchName"));
+                         branch.add(lb);
+                        System.out.println(count + ") " + rs.getString("branchName"));
+                         count++;
+             }           
+           System.out.println(count + ") Quit to previous \n");
+           boolean check = false;
+           while(check!=true)
+           {
+                System.out.println("Please select the ID of the branch: ");
+                
+                int input = MenuInterface.readInt();
+                
+                if(input < (count))
+                {
+                    int bhId = branch.get(input-1).getBranchId();
+                    check = true;
+                    displayReturnBranchBook(con, cardNo,bhId) ;
+                }
+                 if (input == count)
                  {
-                       System.out.print(rs.getString(i) + "\t\t "); //Print one element of a row
+                        check = true;
+                        showMenu(con, cardNo);
                  }
-                   System.out.println();//Move to the next line to print the next row.
+                    else
+                    {
+                        System.out.println("Invalid selection, Please try again! Press '"+ count +"' to exit\n");
+                    }
              }
-           System.out.println("0-> Quit to cancel operation ");
-           
-           System.out.print("Pick the Branch Id you want to return to:  " );
-    		 int bhId = MenuInterface.readInt();
-    		 
-    		 
-    		 PreparedStatement ps = null;
-     		//validation if branchId  exists
-     			try {
-     					ps = con.prepareStatement("SELECT branchId FROM tbl_library_branch WHERE branchId = ? ");
-     					ps.setInt (1, bhId);
-     					rs = ps.executeQuery();
-     					if (rs.next()) {
-     						displayReturnBranchBook(con, cardNo,  bhId);
-     					} else {
-     						System.out.println("Invalid input ");
-     						 showMenu(con, cardNo);
-     					}
-     			}
-     			   catch(Exception e)
-     	        {
-     	            System.out.println(e);
-     			
-     			}
-    		 
-    		 if (bhId == 0) {
-    			 showMenu(con, cardNo);
-    		 }
-    		 else {
-    			 displayReturnBranchBook(con, cardNo,bhId) ;
-    		 }
-                              
-        } 
+        }
         catch (SQLException e) {
             e.printStackTrace();
         }
+		
+       
         
     }
 	
@@ -260,37 +266,53 @@ public class BorrowerUserMenu {
 	//return book-list
 	public static void displayReturnBranchBook(Connection con, int cardNo, int bhId) {
 		
-        try {
-           PreparedStatement ps = con.prepareStatement("SELECT tbl_book.bookId, CONCAT(tbl_book.title, ' by ' , tbl_author.authorName) FROM tbl_book INNER JOIN tbl_author ON tbl_book.authId = tbl_author.authorId INNER JOIN tbl_book_loans ON tbl_book.bookId =  tbl_book_loans.bookId INNER JOIN tbl_borrower ON tbl_book_loans.cardNo = tbl_borrower.cardNo INNER JOIN tbl_library_branch ON tbl_book_loans.branchId = tbl_library_branch.branchId WHERE tbl_library_branch.branchId = ? AND tbl_borrower.cardNo =?");
-           ps.setInt (1, bhId);
-           ps.setInt (2, cardNo);
-           ResultSet rs = ps.executeQuery();
+		 try {
+	           PreparedStatement ps = con.prepareStatement("SELECT tbl_book.bookId, CONCAT(tbl_book.title, ' by ' , tbl_author.authorName)  AS title FROM tbl_book INNER JOIN tbl_author ON tbl_book.authId = tbl_author.authorId INNER JOIN tbl_book_loans ON tbl_book.bookId =  tbl_book_loans.bookId INNER JOIN tbl_borrower ON tbl_book_loans.cardNo = tbl_borrower.cardNo INNER JOIN tbl_library_branch ON tbl_book_loans.branchId = tbl_library_branch.branchId WHERE tbl_library_branch.branchId = ? AND tbl_borrower.cardNo =?");
+	           ps.setInt (1, bhId);
+	           ps.setInt (2, cardNo);
+	           ResultSet rs = ps.executeQuery();
 
-           System.out.println("Book ID \t Book name by Author");
-           while (rs.next())
-             {
-                 //Print one row
-                 for(int i = 1 ; i <= 2; i++)
-                 {
-                       System.out.print(rs.getString(i) + "\t\t "); //Print one element of a row
-                 }
-                   System.out.println();//Move to the next line to print the next row.
-             }
-           System.out.println("0-> Quit to cancel operation ");
-           System.out.print("Pick the Book Id you want to return:  " );
-    		 int bkId = MenuInterface.readInt();
-    		 
-    		 if (bkId == 0) {
-    			 showMenu(con, cardNo);
-    		 }
-    		 else {
-    			 checkLoans(con, cardNo, bhId, bkId);
-    			 System.out.println ("Return sucessful!");
-    		 }
-                              
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+	           List<Book> book = new ArrayList<Book>();
+	           int count = 1;
+	           while (rs.next())
+	             {
+	               Book b = new Book();
+	                        b.setBookId(rs.getInt("bookId"));
+	                        b.setTitle(rs.getString("title"));
+	                         book.add(b);
+	                        System.out.println(count + ") " + rs.getString("title"));
+	                         count++;
+	             }           
+	           System.out.println(count + ") Quit to previous \n");
+	           boolean check = false;
+	           while(check!=true)
+	           {
+	                System.out.println("Pick the Book Id you want to return:  ");
+	                
+	                int input = MenuInterface.readInt();
+	                
+	                if(input < (count))
+	                {
+	                    int bkId = book.get(input-1).getBookId();
+	                    check = true;
+	                    checkLoans(con, cardNo, bhId, bkId);
+	                }
+	                 if (input == count)
+	                 {
+	                        check = true;
+	                        showMenu(con, cardNo);
+	                 }
+	                    else
+	                    {
+	                        System.out.println("Invalid selection, Please try again! Press '"+ count +"' to exit\n");
+	                    }
+	             }
+	        }
+	        catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+		
+	
     }
 	
 	
@@ -311,6 +333,7 @@ public class BorrowerUserMenu {
 						ps.setInt (2, bhId);
 						ps.setInt (3, bkId);
 						 ps.executeUpdate();
+						 showMenu(con, cardNo);
 					} else {
 						System.out.println ("Not a valid return");
 					}

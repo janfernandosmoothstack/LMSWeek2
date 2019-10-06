@@ -13,6 +13,8 @@ public class BorrowerService {
 					ps.setInt (1, bkId);
 					ps.setInt (2, bhId);
 					 ps.executeUpdate();
+					 System.out.println ("Return sucessful!");
+					 System.out.println ("");
 		}
 			catch(Exception e)
 	        {
