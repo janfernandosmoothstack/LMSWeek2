@@ -59,12 +59,8 @@ public class BorrowerMenu implements MenuInterface {
 		while(checkId != true) {
 			System.out.println("\nPlease enter the borrower card No.:");
 			cardNo = MenuInterface.readInt();
-			//validate id
-			
-			String sql = "SELECT cardNo FROM tbl_borrower "
-					+ "WHERE cardNo = ?";
 	
-			checkId = MenuInterface.ifExists(con, cardNo, sql);
+			checkId = MenuInterface.ifExists(con, cardNo, "cardNo", "tbl_borrower");
 		}
 		
 		System.out.println("Please enter the borrower's name:");
@@ -93,23 +89,32 @@ public class BorrowerMenu implements MenuInterface {
 		while(checkId != true) {
 			System.out.println("\nPlease enter the borrower card No.:");
 			cardNo = MenuInterface.readInt();
-			
-			String sql = "SELECT cardNo FROM tbl_borrower "
-					+ "WHERE cardNo = ?";
 	
-			checkId = MenuInterface.ifNotExists(con, cardNo, sql);
+			checkId = MenuInterface.ifNotExists(con, cardNo, "cardNo", "tbl_borrower");
 		}
 		
 		System.out.println("Please enter the new borrower's name:");
 		name = MenuInterface.readString();
 		
+		if(!name.equalsIgnoreCase("N/A")) {
+			borrService.updateBorr(con, cardNo, name, "name");
+		}	
+		
 		System.out.println("Please enter the new borrower's address:");
 		address = MenuInterface.readString();
+		
+		if(!address.equalsIgnoreCase("N/A")) {
+			borrService.updateBorr(con, cardNo, address, "address");
+		}	
 		
 		System.out.println("Please enter the new borrower's phone number:");
 		phone = MenuInterface.readString();
 		
-		borrService.updateBorr(con, cardNo, name, address, phone);
+		if(!phone.equalsIgnoreCase("N/A")) {
+			borrService.updateBorr(con, cardNo, phone, "phone");
+		}
+		
+		System.out.println("\nBorrower updated successfully.");
 		MenuInterface.cont();
 	}
 	

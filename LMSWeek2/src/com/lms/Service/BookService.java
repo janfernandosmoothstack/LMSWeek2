@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import com.lms.DAO.BookDAO;
 
-public class BookService {
+public class BookService extends Service {
 	BookDAO bookDAO = new BookDAO();
 	
 	public void createBook(Connection con, int bookId, String title, int authId, int pubId) {

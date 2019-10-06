@@ -1,12 +1,10 @@
 package com.lms.Service;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import com.lms.DAO.PublisherDAO;
 
-public class PublisherService {
+public class PublisherService extends Service {
 	PublisherDAO pubDAO = new PublisherDAO();
 	
 	public void createPub(Connection con, int pubId, String pubName, String pubAddress, String pubPhone) {
@@ -16,59 +14,14 @@ public class PublisherService {
 	}
 	
 	public void updatePub(Connection con, int pubId, String newData, String fieldName) {
-		PreparedStatement ps = null;
-		
-		try {
-			String sql = "UPDATE tbl_publisher "
-							+ "SET " + fieldName + " = ? "
-							+ "WHERE publisherId = ?";
-			
-			ps = con.prepareStatement(sql);
-			ps.setString(1, newData);
-			ps.setInt(2, pubId);
-			ps.executeUpdate();
-		 	
-		} catch (SQLException e) {
-			System.out.println(e);
-		} finally {
-			try {
-				ps.close();
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
-		}
+		super.updateString(con, pubId, newData, fieldName, "publisherId", "tbl_publisher");
 	}
 	
 	public void deletePub(Connection con, int pubId) {
-		PreparedStatement ps = null;
+		super.delete(con, pubId, "pubId", "tbl_book");
+		super.delete(con, pubId, "publisherId", "tbl_publisher");
 		
-		try {
-			String sql = "DELETE FROM tbl_book "
-							+ "WHERE pubId = ?";
-			
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, pubId);
-			ps.executeUpdate();
-			ps.close();
-			
-			sql = "DELETE FROM tbl_publisher "
-					+ "WHERE publisherId = ?";
-			
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, pubId);
-			ps.executeUpdate();
-			
-		 	System.out.println("\nPublisher deleted successfully.");
-		 	
-		} catch (SQLException e) {
-			System.out.println(e);
-		} finally {
-			try {
-				ps.close();
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
-		}
+		System.out.println("\nPublisher deleted successfully.");
 	}
 	
 	public void viewPub(Connection con) {

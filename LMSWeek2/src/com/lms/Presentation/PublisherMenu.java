@@ -60,10 +60,7 @@ public class PublisherMenu implements MenuInterface{
 			System.out.println("\nPlease enter the publisher ID:");
 			pubId = MenuInterface.readInt();
 			
-			String sql = "SELECT publisherId FROM tbl_publisher "
-							+ "WHERE publisherId = ?";
-			
-			checkId = MenuInterface.ifExists(con, pubId, sql);
+			checkId = MenuInterface.ifExists(con, pubId, "publisherId", "tbl_publisher");
 		}
 		
 		System.out.println("Please enter the publisher's name:");
@@ -93,27 +90,24 @@ public class PublisherMenu implements MenuInterface{
 			System.out.println("\nPlease enter the publisher ID:");
 			pubId = MenuInterface.readInt();
 			
-			String sql = "SELECT publisherId FROM tbl_publisher "
-							+ "WHERE publisherId = ?";
-			
-			checkId = MenuInterface.ifNotExists(con, pubId, sql);
+			checkId = MenuInterface.ifNotExists(con, pubId, "publisherId", "tbl_publisher");
 		}
 		
-		System.out.println("Please enter the new publisher's name:");
+		System.out.println("Please enter the new publisher's name or N/A for no change:");
 		pubName = MenuInterface.readString();
 		
 		if(!pubName.equalsIgnoreCase("N/A")) {
 			pubService.updatePub(con, pubId, pubName, "publisherName");
 		}	
 		
-		System.out.println("Please enter the new publisher's address:");
+		System.out.println("Please enter the new publisher's address or N/A for no change:");
 		pubAddress = MenuInterface.readString();
 		
 		if(!pubAddress.equalsIgnoreCase("N/A")) {
 			pubService.updatePub(con, pubId, pubAddress, "publisherAddress");
 		}
 		
-		System.out.println("Please enter the new publisher's phone number:");
+		System.out.println("Please enter the new publisher's phone number or N/A for no change:");
 		pubPhone = MenuInterface.readString();
 		
 		if(!pubPhone.equalsIgnoreCase("N/A")) {
@@ -135,17 +129,14 @@ public class PublisherMenu implements MenuInterface{
 			System.out.println("\nPlease enter the publisher ID:");
 			pubId = MenuInterface.readInt();
 			
-			String sql = "SELECT publisherId FROM tbl_publisher "
-							+ "WHERE publisherId = ?";
-			
-			checkId = MenuInterface.ifNotExists(con, pubId, sql);
+			checkId = MenuInterface.ifNotExists(con, pubId, "publisherId", "tbl_publisher");
 		}
 		
 		System.out.println("Warning: Deleting this publisher will delete all the books associated to it.");
 		System.out.println("Enter Y to continue and N to go back to the previous menu:");
 		choice = MenuInterface.readString();
 		
-		if(choice.equals("Y") || choice.equals("y")) {
+		if(choice.equalsIgnoreCase("Y")) {
 			pubService.deletePub(con, pubId);
 			MenuInterface.cont();
 		}

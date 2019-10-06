@@ -58,10 +58,7 @@ public class AuthorMenu implements MenuInterface {
 			System.out.println("\nPlease enter the author ID:");
 			authorId = MenuInterface.readInt();
 			
-			String sql = "SELECT authorId FROM tbl_author "
-							+ "WHERE authorId = ?";
-			
-			checkId = MenuInterface.ifExists(con, authorId, sql);
+			checkId = MenuInterface.ifExists(con, authorId, "authorId", "tbl_author");
 		}
 		
 		System.out.println("Please enter the author's name:");
@@ -84,19 +81,18 @@ public class AuthorMenu implements MenuInterface {
 			System.out.println("\nPlease enter the author ID:");
 			authorId = MenuInterface.readInt();
 			
-			String sql = "SELECT authorId FROM tbl_author "
-							+ "WHERE authorId = ?";
-			
-			checkId = MenuInterface.ifNotExists(con, authorId, sql);
+			checkId = MenuInterface.ifNotExists(con, authorId, "authorId", "tbl_author");
 		}
 		
 		System.out.println("Please enter the new author's name or N/A for no change:");
 		authorName = MenuInterface.readString();
 		
 		if(!authorName.equalsIgnoreCase("N/A")) {
-			authService.updateAuthor(con, authorId, authorName);
-			MenuInterface.cont();
+			authService.updateAuthor(con, authorId, authorName, "authorName");
 		}
+		
+		System.out.println("\nAuthor updated successfully");
+		MenuInterface.cont();
 	}
 	
 	public void toDelete(Connection con){
@@ -111,17 +107,14 @@ public class AuthorMenu implements MenuInterface {
 			System.out.println("\nPlease enter the author ID:");
 			authorId = MenuInterface.readInt();
 			
-			String sql = "SELECT authorId FROM tbl_author "
-							+ "WHERE authorId = ?";
-			
-			checkId = MenuInterface.ifNotExists(con, authorId, sql);
+			checkId = MenuInterface.ifNotExists(con, authorId, "authorId", "tbl_author");
 		}
 		
 		System.out.println("Warning: Deleting this author will delete all the books associated to it.");
 		System.out.println("Enter Y to continue and N to go back to the previous menu:");
 		choice = MenuInterface.readString();
 		
-		if(choice.equals("Y") || choice.equals("y")) {
+		if(choice.equalsIgnoreCase("Y")) {
 			authService.deleteAuthor(con, authorId);
 			MenuInterface.cont();
 		}

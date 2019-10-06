@@ -42,11 +42,15 @@ public interface MenuInterface {
 		return;
 	}
 	
-	public static boolean ifExists (Connection con, int Id, String sql) {
+	//Makes sure the ID does not exist
+	public static boolean ifExists (Connection con, int Id, String idFieldName, String tblName) {
 		PreparedStatement ps = null;
 		boolean checkId = false;
 		
 		try {
+			String sql = "SELECT " + idFieldName + " FROM " + tblName
+					+ " WHERE " + idFieldName + " = ?";
+			
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, Id);
 			ResultSet rs = ps.executeQuery();
@@ -65,11 +69,15 @@ public interface MenuInterface {
 		return checkId;
 	}
 	
-	public static boolean ifNotExists(Connection con, int Id, String sql) {
+	//Makes sure the ID exists
+	public static boolean ifNotExists(Connection con, int Id, String idFieldName, String tblName) {
 		PreparedStatement ps = null;
 		boolean checkId = false;
 		
 		try {
+			String sql = "SELECT " + idFieldName + " FROM " + tblName
+					+ " WHERE " + idFieldName + " = ?";
+			
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, Id);
 			ResultSet rs = ps.executeQuery();

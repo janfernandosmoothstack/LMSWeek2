@@ -1,12 +1,10 @@
 package com.lms.Service;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import com.lms.DAO.AuthorDAO;
 
-public class AuthorService {
+public class AuthorService extends Service{
 	AuthorDAO authorDAO = new AuthorDAO();
 	
 	public void createAuthor(Connection con, int authorId, String authorName) {
@@ -15,62 +13,15 @@ public class AuthorService {
 		System.out.println("\nAuthor created successfully.");
 	}
 	
-	public void updateAuthor(Connection con, int authorId, String authorName) {
-		PreparedStatement ps = null;
-		
-		try {
-			String sql = "UPDATE tbl_author "
-							+ "SET authorName = ? "
-							+ "WHERE authorId = ?";
-			
-			ps = con.prepareStatement(sql);
-			ps.setString(1, authorName);
-			ps.setInt(2, authorId);
-			ps.executeUpdate();
-			
-		 	System.out.println("\nAuthor updated successfully.");
-		 	
-		} catch (SQLException e) {
-			System.out.println(e);
-		} finally {
-			try {
-				ps.close();
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
-		}
+	public void updateAuthor(Connection con, int authorId, String newData, String fieldName) {
+		super.updateString(con, authorId, newData, fieldName, "authorId", "tbl_author");
 	}
 	
 	public void deleteAuthor(Connection con, int authorId) {
-		PreparedStatement ps = null;
+		super.delete(con, authorId, "authId", "tbl_book");
+		super.delete(con, authorId, "authorId", "tbl_author");
 		
-		try {
-			String sql = "DELETE FROM tbl_book "
-							+ "WHERE authId = ?";
-			
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, authorId);
-			ps.executeUpdate();
-			ps.close();
-			
-			sql = "DELETE FROM tbl_author "
-					+ "WHERE authorId = ?";
-			
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, authorId);
-			ps.executeUpdate();
-			
-		 	System.out.println("\nAuthor deleted successfully.");
-		 	
-		} catch (SQLException e) {
-			System.out.println(e);
-		} finally {
-			try {
-				ps.close();
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
-		}
+		System.out.println("\nAuthor deleted successfully.");
 	}
 	
 	public void viewAuthor(Connection con) {

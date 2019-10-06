@@ -6,10 +6,9 @@ import com.lms.Service.LibBranService;
 
 public class LibraryBranchMenu implements MenuInterface {
 	LibBranService libBranServ = new LibBranService();
+	String choice = "";
 	
 	public void showMenu(Connection con) {
-		String choice = "";
-		
 		do {
 			MenuInterface.clr();
 			
@@ -53,25 +52,22 @@ public class LibraryBranchMenu implements MenuInterface {
 		boolean checkId  = false;
 		int libBranId = 0;
 		String libBranName = "";
-		String libBranAdress ="";
+		String libBranAddress ="";
 		
 		while(checkId != true) {
 			System.out.println("\nPlease enter the library branch ID:");
 			libBranId = MenuInterface.readInt();
-			
-			String sql = "SELECT branchId FROM tbl_library_branch "
-					+ "WHERE branchId = ?";
 	
-			checkId = MenuInterface.ifExists(con, libBranId, sql);
+			checkId = MenuInterface.ifExists(con, libBranId, "branchId", "tbl_library_branch");
 		}
 		
 		System.out.println("Please enter the library branch's name:");
 		libBranName = MenuInterface.readString();
 		
 		System.out.println("Please enter the library branch's address:");
-		libBranAdress = MenuInterface.readString();
+		libBranAddress = MenuInterface.readString();
 		
-		libBranServ.createLibBran(con, libBranId, libBranName, libBranAdress);
+		libBranServ.createLibBran(con, libBranId, libBranName, libBranAddress);
 		MenuInterface.cont();
 	}
 	
@@ -79,7 +75,7 @@ public class LibraryBranchMenu implements MenuInterface {
 		boolean checkId  = false;
 		int libBranId = 0;
 		String libBranName = "";
-		String libBranAdress ="";
+		String libBranAddress ="";
 		
 		System.out.println();
 		libBranServ.viewLibBran(con);
@@ -87,29 +83,48 @@ public class LibraryBranchMenu implements MenuInterface {
 		while(checkId != true) {
 			System.out.println("\nPlease enter the library branch ID:");
 			libBranId = MenuInterface.readInt();
-			
-			String sql = "SELECT branchId FROM tbl_library_branch "
-					+ "WHERE branchId = ?";
 	
-			checkId = MenuInterface.ifNotExists(con, libBranId, sql);
+			checkId = MenuInterface.ifNotExists(con, libBranId, "branchId", "tbl_library_branch");
 		}
 		
-		System.out.println("Please enter the new library branch's name:");
+		System.out.println("Please enter the new library branch's name or N/A for no change:");
 		libBranName = MenuInterface.readString();
 		
-		System.out.println("Please enter the new library branch's address:");
-		libBranAdress = MenuInterface.readString();
+		if(!libBranName.equalsIgnoreCase("N/A")) {
+			libBranServ.updateLibBran(con, libBranId, libBranName, "branchName");
+		}	
 		
-		libBranServ.updateLibBran(con, libBranId, libBranName, libBranAdress);
+		System.out.println("Please enter the new library branch's address or N/A for no change:");
+		libBranAddress = MenuInterface.readString();
+		
+		if(!libBranAddress.equalsIgnoreCase("N/A")) {
+			libBranServ.updateLibBran(con, libBranId, libBranAddress, "branchAddress");
+		}
+		
+		System.out.println("Library Branch updated successfully.");
 		MenuInterface.cont();
 	}
 	
 	public void toDelete(Connection con){
-		System.out.println("\nPlease enter the library branch ID:");
-		int libBranId = MenuInterface.readInt();
-		//validate id
+		boolean checkId  = false;
+		int libBranId = 0;
 		
-		//Call delete method
+		System.out.println();
+		libBranServ.viewLibBran(con);
+		
+		while(checkId != true) {
+			System.out.println("\nPlease enter the library branch ID:");
+			libBranId = MenuInterface.readInt();
+	
+			checkId = MenuInterface.ifNotExists(con, libBranId, "branchId", "tbl_library_branch");
+		}
+		
+		System.out.println("Warning: You are about to delete a library branch...");
+		String menu = "1. Dispatch books to another branch\n" + 
+						"2. Delete books associated with library branch\n" +
+						"\n" +
+						"Please select an option(1-2):";
+		choice = MenuInterface.readString();
 	}
 	
 	public void toView(Connection con) {

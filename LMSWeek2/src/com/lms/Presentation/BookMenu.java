@@ -59,11 +59,8 @@ public class BookMenu implements MenuInterface{
 		while(checkId != true) {
 			System.out.println("\nPlease enter the book ID:");
 			bookId = MenuInterface.readInt();
-			
-			String sql = "SELECT bookId FROM tbl_book "
-					+ "WHERE bookId = ?";
 	
-			checkId = MenuInterface.ifExists(con, bookId, sql);
+			checkId = MenuInterface.ifExists(con, bookId, "bookId", "tbl_book");
 		}
 		
 		System.out.println("Please enter the book's title:");
@@ -72,21 +69,15 @@ public class BookMenu implements MenuInterface{
 		while(checkId != true) {
 			System.out.println("Please enter the author's ID:");
 			authId = MenuInterface.readInt();
-			
-			String sql = "SELECT authorId FROM tbl_author "
-					+ "WHERE authorId = ?";
 	
-			checkId = MenuInterface.ifNotExists(con, authId, sql);
+			checkId = MenuInterface.ifNotExists(con, authId, "authorId", "tbl_author");
 		}
 		
 		while(checkId != true) {
 			System.out.println("Please enter the publisher's ID:");
 			pubId = MenuInterface.readInt();
-			
-			String sql = "SELECT publisherId FROM tbl_publisher "
-					+ "WHERE publisherId = ?";
 	
-			checkId = MenuInterface.ifNotExists(con, pubId, sql);
+			checkId = MenuInterface.ifNotExists(con, pubId, "publisherId", "tbl_publisher");
 		}
 		
 		bookService.createBook(con, bookId, title, authId, pubId);
@@ -106,11 +97,8 @@ public class BookMenu implements MenuInterface{
 		while(checkId != true) {
 			System.out.println("\nPlease enter the book ID:");
 			bookId = MenuInterface.readInt();
-			
-			String sql = "SELECT bookId FROM tbl_book "
-					+ "WHERE bookId = ?";
 	
-			checkId = MenuInterface.ifNotExists(con, bookId, sql);
+			checkId = MenuInterface.ifNotExists(con, bookId, "bookId", "tbl_book");
 		}
 		
 		System.out.println("Please enter the new book's title:");
@@ -119,21 +107,15 @@ public class BookMenu implements MenuInterface{
 		while(checkId != true) {
 			System.out.println("Please enter the new author's ID:");
 			authId = MenuInterface.readInt();
-			
-			String sql = "SELECT authorId FROM tbl_author "
-					+ "WHERE authorId = ?";
 	
-			checkId = MenuInterface.ifNotExists(con, authId, sql);
+			checkId = MenuInterface.ifNotExists(con, authId, "authorId", "tbl_author");
 		}
 		
 		while(checkId != true) {
 			System.out.println("Please enter the new publisher's ID:");
 			pubId = MenuInterface.readInt();
-			
-			String sql = "SELECT publisherId FROM tbl_publisher "
-					+ "WHERE publisherId = ?";
 	
-			checkId = MenuInterface.ifNotExists(con, pubId, sql);
+			checkId = MenuInterface.ifNotExists(con, pubId, "publisherId", "tbl_publisher");
 		}
 		
 		bookService.updateBook(con, bookId, title, authId, pubId);
