@@ -4,17 +4,17 @@ import java.sql.Connection;
 
 import com.lms.DAO.BorrowerDAO;
 
-public class BorrowerService extends Service{
+public class BorrowerService {
 	BorrowerDAO borrDAO = new BorrowerDAO();
 	
 	public void createBorr(Connection con, int cardNo, String name, String address, String phone) {
-		borrDAO.writeBorr(con, cardNo, name, address, phone);
+		borrDAO.writeInsertBorr(con, cardNo, name, address, phone);
 		
 		System.out.println("\nBorrower created successfully.");
 	}
 	
 	public void updateBorr(Connection con, int cardNo, String newData, String fieldName) {
-		super.updateString(con, cardNo, newData, fieldName, "cardNo", "tbl_borrower");
+		borrDAO.writeUpdateBorr(con, cardNo, newData, fieldName);
 	}
 	
 	public void deleteBorr() {
@@ -22,6 +22,6 @@ public class BorrowerService extends Service{
 	}
 	
 	public void viewBorr(Connection con) {
-		borrDAO.readBorr(con);
+		borrDAO.readViewBorr(con);
 	}
 }

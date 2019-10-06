@@ -104,6 +104,14 @@ public class BookMenu implements MenuInterface{
 		System.out.println("Please enter the new book's title:");
 		title = MenuInterface.readString();
 		
+		if(!title.equalsIgnoreCase("N/A")) {
+			bookService.updateBook(con, pubId, title, "title");
+		}
+		
+		//if(!title.equalsIgnoreCase("N/A")) {
+			//bookService.updateBook(con, pubId, title, "title");
+		//}
+		
 		while(checkId != true) {
 			System.out.println("Please enter the new author's ID:");
 			authId = MenuInterface.readInt();
@@ -117,8 +125,7 @@ public class BookMenu implements MenuInterface{
 	
 			checkId = MenuInterface.ifNotExists(con, pubId, "publisherId", "tbl_publisher");
 		}
-		
-		bookService.updateBook(con, bookId, title, authId, pubId);
+
 		MenuInterface.cont();
 	}
 	

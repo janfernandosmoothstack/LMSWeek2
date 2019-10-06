@@ -6,17 +6,6 @@ public class Borrower {
 	private String address;
 	private String phone;
 	
-	public Borrower() {
-		
-	}
-	
-	public Borrower(int cardNo, String name, String address, String phone) {
-		this.cardNo = cardNo;
-		this.name = name;
-		this.address = address;
-		this.phone = phone;
-	}
-
 	public int getCardNo() {
 		return cardNo;
 	}

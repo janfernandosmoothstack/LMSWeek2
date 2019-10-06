@@ -6,9 +6,13 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-public class AuthorDAO {
-	public void writeAuthor(Connection con, int authorId, String authorName) {
+import com.lms.POJO.Author;
+
+public class AuthorDAO extends DAO{
+	public void writeInsertAuthor(Connection con, int authorId, String authorName) {
 		PreparedStatement ps = null;
 		
 		try {
@@ -31,7 +35,16 @@ public class AuthorDAO {
 		}
 	}
 	
-	public void readAuthor(Connection con) {
+	public void writeUpdateAuthor(Connection con, int authorId, String newData, String fieldName) {
+		super.updateString(con, authorId, newData, fieldName, "authorId", "tbl_author");
+	}
+	
+	public void writeDeleteAuthor(Connection con, int authorId) {
+		super.delete(con, authorId, "authId", "tbl_book");
+		super.delete(con, authorId, "authorId", "tbl_author");
+	}
+	
+	public void readViewAuthor(Connection con) {
 		try {
 			String sql = "SELECT * FROM tbl_author";
 	        
@@ -54,5 +67,28 @@ public class AuthorDAO {
 		} catch (SQLException e) {
 			System.out.print(e);
 		}
+	}
+	
+	public List<Author> readAuthor(Connection con) {
+		List<Author> authorList = null;
+		
+		try {
+			Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT authorId, authorName FROM tbl_author");         
+
+        	authorList = new ArrayList<Author>();
+        	
+            while (rs.next()) {
+            	Author auth = new Author();
+            	
+                auth.setAuthorId(rs.getInt("authorId"));
+                auth.setAuthorName(rs.getString("authorName"));
+                authorList.add(auth);
+            }
+        } catch (SQLException e) {
+        	System.out.println(e);
+        }
+		
+		return authorList;
 	}
 }

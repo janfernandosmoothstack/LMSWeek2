@@ -6,9 +6,13 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-public class PublisherDAO {
-	public void writePub(Connection con, int pubId, String pubName, String pubAddress, String pubPhone) {
+import com.lms.POJO.Publisher;
+
+public class PublisherDAO extends DAO {
+	public void writeInsertPub(Connection con, int pubId, String pubName, String pubAddress, String pubPhone) {
 		PreparedStatement ps = null;
 		
 		try {
@@ -33,7 +37,16 @@ public class PublisherDAO {
 		}
 	}
 	
-	public void readPub(Connection con) {
+	public void writeUpdatePub(Connection con, int pubId, String newData, String fieldName) {
+		super.updateString(con, pubId, newData, fieldName, "publisherId", "tbl_publisher");
+	}
+	
+	public void writeDeletePub(Connection con, int pubId) {
+		super.delete(con, pubId, "pubId", "tbl_book");
+		super.delete(con, pubId, "publisherId", "tbl_publisher");
+	}
+	
+	public void readViewPub(Connection con) {
 		try {
 			String sql = "SELECT * FROM tbl_publisher";
 	        
@@ -56,5 +69,30 @@ public class PublisherDAO {
 		} catch (SQLException e) {
 			System.out.print(e);
 		}
+	}
+	
+	public List<Publisher> readPub(Connection con) {
+		List<Publisher> pubList = null;
+		
+		try {
+			Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT publisherId, publisherName, publisherAddress, publisherPhone FROM tbl_publisher");         
+
+        	pubList = new ArrayList<Publisher>();
+        	
+            while (rs.next()) {
+            	Publisher pub = new Publisher();
+            	
+            	pub.setPublisherId(rs.getInt("publisherId"));
+            	pub.setPublisherName(rs.getString("publisherName"));
+            	pub.setPublisherAddress(rs.getString("publisherAddress"));
+            	pub.setPublisherPhone(rs.getString("publisherPhone"));
+                pubList.add(pub);
+            }
+        } catch (SQLException e) {
+        	System.out.println(e);
+        }
+		
+		return pubList;
 	}
 }

@@ -6,9 +6,15 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-public class BookDAO {
-	public void writeBook(Connection con, int bookId, String title, int authId, int pubId) {
+import com.lms.POJO.Author;
+import com.lms.POJO.Book;
+import com.lms.POJO.Publisher;
+
+public class BookDAO extends DAO{
+	public void writeInsertBook(Connection con, int bookId, String title, int authId, int pubId) {
 		PreparedStatement ps = null;
 		
 		try {
@@ -33,7 +39,11 @@ public class BookDAO {
 		}
 	}
 	
-	public void readBook(Connection con) {
+	public void writeUpdateBook(Connection con, int bookId, String newData, String fieldName) {
+		super.updateString(con, bookId, newData, fieldName, "bookId", "tbl_book");
+	}
+	
+	public void readViewBook(Connection con) {
 		try {
 			String sql = "SELECT * FROM tbl_book";
 	        
@@ -56,5 +66,36 @@ public class BookDAO {
 		} catch (SQLException e) {
 			System.out.print(e);
 		}
+	}
+	
+	public List<Book> readBook(Connection con) {
+		List<Book> bookList = null;
+		
+		try {
+			Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT bookId, title, authId, pubId FROM tbl_publisher");         
+
+        	bookList = new ArrayList<Book>();
+        	
+            while (rs.next()) {
+            	Book book = new Book();
+            	book.setBookId(rs.getInt("bookId"));
+            	book.setTitle(rs.getString("title"));
+            	
+            	Author author = new Author();
+            	author.setAuthorId(rs.getInt("authorId"));
+            	book.setAuthor(author);
+            	
+            	Publisher pub = new Publisher();
+            	pub.setPublisherId(rs.getInt("publisherId"));
+            	book.setPublisher(pub);
+            	
+            	bookList.add(book);
+            }
+        } catch (SQLException e) {
+        	System.out.println(e);
+        }
+		
+		return bookList;
 	}
 }

@@ -4,17 +4,17 @@ import java.sql.Connection;
 
 import com.lms.DAO.LibBranchDAO;
 
-public class LibBranService extends Service {
+public class LibBranService {
 	LibBranchDAO libBranDAO = new LibBranchDAO();
 	
 	public void createLibBran(Connection con, int branchId, String branchName, String branchAddress) {
-		libBranDAO.writeLibBran(con, branchId, branchName, branchAddress);
+		libBranDAO.writeInsertLibBran(con, branchId, branchName, branchAddress);
 		
 		System.out.println("\nLibrary Branch created successfully.");
 	}
 	
 	public void updateLibBran(Connection con, int branchId, String newData, String fieldName) {
-		super.updateString(con, branchId, newData, fieldName, "branchId", "tbl_library_branch");
+		libBranDAO.writeUpdateLibBran(con, branchId, newData, fieldName);
 	}
 	
 	public void deleteLibBran() {
@@ -22,6 +22,6 @@ public class LibBranService extends Service {
 	}
 	
 	public void viewLibBran(Connection con) {
-		libBranDAO.readLibBran(con);
+		libBranDAO.readViewLibBran(con);
 	}
 }

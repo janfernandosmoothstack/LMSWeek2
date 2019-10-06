@@ -60,7 +60,8 @@ public class AdminMenu implements MenuInterface {
 						checkChoice = true;
 						break;
 					case "6": //Override
-						
+						OverrideDueDate override = new OverrideDueDate();
+						override.override(con);
 						checkChoice = true;
 						break;
 					case "7": //Exit

@@ -6,9 +6,13 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-public class LibBranchDAO {
-	public void writeLibBran(Connection con, int branchId, String branchName, String branchAddress) {
+import com.lms.POJO.LibraryBranch;
+
+public class LibBranchDAO extends DAO {
+	public void writeInsertLibBran(Connection con, int branchId, String branchName, String branchAddress) {
 		PreparedStatement ps = null;
 		
 		try {
@@ -32,7 +36,15 @@ public class LibBranchDAO {
 		}
 	}
 	
-	public void readLibBran(Connection con) {
+	public void writeUpdateLibBran(Connection con, int branchId, String newData, String fieldName) {
+		super.updateString(con, branchId, newData, fieldName, "branchId", "tbl_library_branch");
+	}
+	
+	public void writeDeleteLibBran() {
+		
+	}
+	
+	public void readViewLibBran(Connection con) {
 		try {
 			String sql = "SELECT * FROM tbl_library_branch";
 	        
@@ -55,5 +67,29 @@ public class LibBranchDAO {
 		} catch (SQLException e) {
 			System.out.print(e);
 		}
+	}
+	
+	public List<LibraryBranch> readlibBran(Connection con) {
+		List<LibraryBranch> libBranList = null;
+		
+		try {
+			Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT branchId, branchName, branchAddress FROM tbl_library_branch");         
+
+            libBranList = new ArrayList<LibraryBranch>();
+        	
+            while (rs.next()) {
+            	LibraryBranch branch = new LibraryBranch();
+            	
+            	branch.setBranchId(rs.getInt("branchId"));
+            	branch.setBranchName(rs.getString("branchName"));
+            	branch.setBranchAddress(rs.getString("branchAddress"));
+                libBranList.add(branch);
+            }
+        } catch (SQLException e) {
+        	System.out.println(e);
+        }
+		
+		return libBranList;
 	}
 }

@@ -1,10 +1,10 @@
-package com.lms.Service;
+package com.lms.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class Service {
+public class DAO {
 	public void updateString(Connection con, int id, String newData, String fieldName, String idFieldName, String tblName) {
 		PreparedStatement ps = null;
 		

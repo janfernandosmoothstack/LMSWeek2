@@ -5,16 +5,6 @@ public class LibraryBranch {
 	private String branchName;
 	private String branchAddress;
 	
-	public LibraryBranch() {
-		
-	}
-	
-	public LibraryBranch(int branchId, String branchName, String branchAddress) {
-		this.branchId = branchId;
-		this.branchName = branchName;
-		this.branchAddress = branchAddress;
-	}
-
 	public int getBranchId() {
 		return branchId;
 	}

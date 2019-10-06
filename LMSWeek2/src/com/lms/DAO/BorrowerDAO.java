@@ -6,9 +6,13 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-public class BorrowerDAO {
-	public void writeBorr(Connection con, int cardNo, String name, String address, String phone) {
+import com.lms.POJO.Borrower;
+
+public class BorrowerDAO extends DAO {
+	public void writeInsertBorr(Connection con, int cardNo, String name, String address, String phone) {
 		PreparedStatement ps = null;
 		
 		try {
@@ -33,7 +37,15 @@ public class BorrowerDAO {
 		}
 	}
 	
-	public void readBorr(Connection con) {
+	public void writeUpdateBorr(Connection con, int cardNo, String newData, String fieldName) {
+		super.updateString(con, cardNo, newData, fieldName, "cardNo", "tbl_borrower");
+	}
+	
+	public void writeDeleteBorr() {
+		
+	}
+	
+	public void readViewBorr(Connection con) {
 		try {
 			String sql = "SELECT * FROM tbl_borrower";
 	        
@@ -56,5 +68,30 @@ public class BorrowerDAO {
 		} catch (SQLException e) {
 			System.out.print(e);
 		}
+	}
+	
+	public List<Borrower> readBorr(Connection con) {
+		List<Borrower> borrList = null;
+		
+		try {
+			Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT cardNo, name, address, phone FROM tbl_borrower");         
+
+            borrList = new ArrayList<Borrower>();
+        	
+            while (rs.next()) {
+            	Borrower borr = new Borrower();
+            	
+            	borr.setCardNo(rs.getInt("cardNo"));
+            	borr.setName(rs.getString("name"));
+            	borr.setAddress(rs.getString("address"));
+            	borr.setPhone(rs.getString("phone"));
+            	borrList.add(borr);
+            }
+        } catch (SQLException e) {
+        	System.out.println(e);
+        }
+		
+		return borrList;
 	}
 }

@@ -4,18 +4,10 @@ import java.util.Date;
 
 public class BookLoans {
 	Book book = new Book();
-	LibraryBranch branch = new LibraryBranch();
-	Borrower borrower = new Borrower();
+	private LibraryBranch branch;
+	private Borrower borrower;
 	private Date dateOut;
 	private Date dueDate;
-	
-	public BookLoans(Book book, LibraryBranch branch, Borrower borrower, Date dateOut, Date dueDate) {
-		this.book = book;
-		this.branch = branch;
-		this.borrower = borrower;
-		this.dateOut = dateOut;
-		this.dueDate = dueDate;
-	}
 
 	public Book getBook() {
 		return book;

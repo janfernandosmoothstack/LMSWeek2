@@ -4,27 +4,26 @@ import java.sql.Connection;
 
 import com.lms.DAO.PublisherDAO;
 
-public class PublisherService extends Service {
+public class PublisherService {
 	PublisherDAO pubDAO = new PublisherDAO();
 	
 	public void createPub(Connection con, int pubId, String pubName, String pubAddress, String pubPhone) {
-		pubDAO.writePub(con, pubId, pubName, pubAddress, pubPhone);
+		pubDAO.writeInsertPub(con, pubId, pubName, pubAddress, pubPhone);
 		
 		System.out.println("\nPublisher created successfully.");
 	}
 	
 	public void updatePub(Connection con, int pubId, String newData, String fieldName) {
-		super.updateString(con, pubId, newData, fieldName, "publisherId", "tbl_publisher");
+		pubDAO.writeUpdatePub(con, pubId, newData, fieldName);
 	}
 	
 	public void deletePub(Connection con, int pubId) {
-		super.delete(con, pubId, "pubId", "tbl_book");
-		super.delete(con, pubId, "publisherId", "tbl_publisher");
+		pubDAO.writeDeletePub(con, pubId);
 		
 		System.out.println("\nPublisher deleted successfully.");
 	}
 	
 	public void viewPub(Connection con) {
-		pubDAO.readPub(con);
+		pubDAO.readViewPub(con);
 	}
 }
