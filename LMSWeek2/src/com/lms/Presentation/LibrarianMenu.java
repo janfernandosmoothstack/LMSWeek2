@@ -1,8 +1,13 @@
 package com.lms.Presentation;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.lms.POJO.Book;
+import com.lms.POJO.LibraryBranch;
 
 public class LibrarianMenu implements MenuInterface {
-	//check code
+	
 	public void showMenu(Connection con) {
 		String choice = "";
 		
@@ -26,9 +31,8 @@ public class LibrarianMenu implements MenuInterface {
 						//Display branches
 						Lib1(con);
 						checkChoice = true;
-			            System.out.println("0: Exit\n");
 			            
-			            validateBranchId(con);
+			            //validateBranchId(con, brId);
 			           
 						break;
 					case "2":
@@ -43,23 +47,51 @@ public class LibrarianMenu implements MenuInterface {
 	}
 	
 	//LIB1 Menu
-	public static void Lib1(Connection con) {
+	public void Lib1(Connection con) {
+		
 		try {
 			Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select branchId, branchName from tbl_library_branch");
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
-            
-            System.out.println("\nBranch ID \t Branch Name");
+            ResultSet rs = st.executeQuery("select branchId, branchName, branchAddress from tbl_library_branch");         
+            System.out.println("\n   Branch Name");
+
+        	List<LibraryBranch> branch = new ArrayList<LibraryBranch>();
+        	int count = 1;
             while (rs.next())
               {
-                  //Print one row
-                  for(int i = 1 ; i <= columnsNumber; i++)
-                  {
-                        System.out.print(rs.getString(i) + "\t\t "); //Print one element of a row
-                  }
-                    System.out.println();//Move to the next line to print the next row.
+            	LibraryBranch lb = new LibraryBranch();
+                		 lb.setBranchId(rs.getString("branchId"));
+                		 lb.setBranchName(rs.getString("branchName"));
+                		 lb.setBranchAddress(rs.getString("branchAddress"));
+                		  branch.add(lb);
+                		 System.out.println(count + ") " + rs.getString("branchName"));
+                		  count++;
+
               }       	
+            System.out.println(count + ") Quit to previous \n");
+            
+            boolean check = false;
+            while(check!=true) 
+            {
+	            System.out.println("Please select the ID of the branch: ");
+	            int input = MenuInterface.readInt();
+	            if(input < (count)) 
+	            {
+	            	int brId = Integer.parseInt(branch.get(input-1).getBranchId());
+	            	check = true;
+	                validateBranchId(con, brId);
+	            }
+		         if (input == count)
+		         {
+		            	check = true;
+		            	return;
+		         }
+		            else 
+		            {
+		            	System.out.println("Invalid selection, Please try again! Press '"+ count +"' to exit\n");
+		            }
+	         }
+            
+            
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -108,13 +140,8 @@ public class LibrarianMenu implements MenuInterface {
 	}
 	
 	// Validate Branch Address is the right option
-	public void validateBranchId(Connection con){
-		  System.out.println("Please select the ID of the branch");
-          int brId = MenuInterface.readInt();
-          // EXIT IN THE BRANCH SELECT OPTION
-          if(brId ==0) {
-        	  showMenu(con);
-          }
+	public void validateBranchId(Connection con, int brId){
+
           PreparedStatement ps = null;
           
 		try {
@@ -126,7 +153,7 @@ public class LibrarianMenu implements MenuInterface {
 					 showSubMenu(con, brId, brName);
 				} else {
 				    System.out.println("\nPlease enter a valid branch Id :-");
-				    validateBranchId(con);
+				    validateBranchId(con, brId);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -187,30 +214,51 @@ public class LibrarianMenu implements MenuInterface {
 			try {
 				System.out.println("\nPick the Book you want to add copies of, to your branch:");
 				System.out.println("-------------------------------------------------------------");
-	            PreparedStatement ps = con.prepareStatement("SELECT tbl_book.bookId, CONCAT(tbl_book.title, ' by ' , tbl_author.authorName)  FROM tbl_book INNER JOIN tbl_author ON tbl_book.authId = tbl_author.authorId INNER JOIN tbl_book_copies ON tbl_book.bookId = tbl_book_copies.bookId INNER JOIN tbl_library_branch ON tbl_book_copies.branchId = tbl_library_branch.branchId WHERE tbl_library_branch.branchId = ? ");
+	            PreparedStatement ps = con.prepareStatement("SELECT tbl_book.bookId, CONCAT(tbl_book.title, ' by ' , tbl_author.authorName) AS title FROM tbl_book INNER JOIN tbl_author ON tbl_book.authId = tbl_author.authorId INNER JOIN tbl_book_copies ON tbl_book.bookId = tbl_book_copies.bookId INNER JOIN tbl_library_branch ON tbl_book_copies.branchId = tbl_library_branch.branchId WHERE tbl_library_branch.branchId = ? ");
 				ps.setInt(1, brId);
 	            ResultSet rs = ps.executeQuery();
 	            
-	            System.out.println("Book ID \t Book Title");
+	            System.out.println("   Book Title");
+	            List<Book> book = new ArrayList<Book>();
+	        	int count = 1;
 	            while (rs.next())
 	              {
-	                  //Print one row
-	                  for(int i = 1 ; i <= 2; i++)
-	                  {
-	                        System.out.print(rs.getString(i) + "\t\t "); //Print one element of a row
-	                  }
-	                    System.out.println();//Move to the next line to print the next row.
-	              }
-	            validateBookId(con, brId, brName);
+	            	Book bk = new Book();
+	                		 bk.setBookId(rs.getString("bookId"));
+	                		 bk.setTitle(rs.getString("title"));
+	                		 book.add(bk);
+	                		 System.out.println(count + ") " + rs.getString("title"));
+	                		  count++;
+	              }       	
+	            System.out.println(count + ") Quit to previous \n");
 	            
+	            boolean check = false;
+	            while(check!=true) 
+	            {
+	            	System.out.println("Please select the ID of the book: ");
+	            	int input = MenuInterface.readInt();
+		            if(input < (count)) 
+		            {
+		            	int bookId = Integer.parseInt(book.get(input-1).getBookId());
+		            	check = true;
+		            	validateBookId(con, brId, brName, bookId);
+		            }
+			         if (input == count)
+			         {
+			            	check = true;
+			            	return;
+			         }
+			            else 
+			            {
+			            	System.out.println("Invalid selection, Please try again! Press '"+ count +"' to exit\n");
+			            }
+		         }
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		public void validateBookId(Connection con, int brId, String brName) {
-			System.out.println("\nPlease select the ID of the book");
-	          int bookId = MenuInterface.readInt();
+		public void validateBookId(Connection con, int brId, String brName, int bookId) {
 	          PreparedStatement ps = null;
 	          
 			try {
@@ -221,7 +269,7 @@ public class LibrarianMenu implements MenuInterface {
 						getCopies(con, bookId, brId, brName);
 					} else {
 					    System.out.println("\nPlease enter a valid branch Id :-");
-					    validateBookId(con, brId, brName);
+					    validateBookId(con, brId, brName, bookId);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -261,7 +309,7 @@ public class LibrarianMenu implements MenuInterface {
 				addCopies(con, bookId, copies, brId, brName);
 			} else {
 			    System.out.println("\nPlease enter a valid branch Id :-");
-			    validateBookId(con, brId, brName);
+			    validateBookId(con, brId, brName, bookId);
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();

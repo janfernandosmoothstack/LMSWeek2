@@ -1,7 +1,7 @@
 package com.lms.POJO;
 
 public class Book {
-	private int bookId;
+	private String bookId;
 	private String title;
 	Author author = new Author();
 	Publisher publisher = new Publisher();
@@ -10,18 +10,18 @@ public class Book {
 		
 	}
 	
-	public Book(int bookId, String title, Author author, Publisher publisher) {
+	public Book(String bookId, String title, Author author, Publisher publisher) {
 		this.bookId = bookId;
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
 	}
 
-	public int getBookId() {
+	public String getBookId() {
 		return bookId;
 	}
 
-	public void setBookId(int bookId) {
+	public void setBookId(String bookId) {
 		this.bookId = bookId;
 	}
 
