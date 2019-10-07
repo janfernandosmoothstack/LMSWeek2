@@ -61,7 +61,7 @@ public class BorrowerMenu implements MenuInterface {
 			System.out.println("\nPlease enter the borrower card No.:");
 			cardNo = MenuInterface.readInt();
 	
-			checkId = MenuInterface.ifExists(con, cardNo, "cardNo", "tbl_borrower");
+			checkId = borrService.ifExists(con, cardNo, checkId);
 		}
 		
 		System.out.println("Please enter the borrower's name:");
@@ -91,7 +91,7 @@ public class BorrowerMenu implements MenuInterface {
 			System.out.println("\nPlease enter the borrower card No.:");
 			cardNo = MenuInterface.readInt();
 	
-			checkId = MenuInterface.ifNotExists(con, cardNo, "cardNo", "tbl_borrower");
+			checkId = borrService.ifNotExists(con, cardNo, checkId);
 		}
 		
 		System.out.println("Please enter the new borrower's name:");
@@ -130,7 +130,7 @@ public class BorrowerMenu implements MenuInterface {
 			System.out.println("\nPlease enter the borrower card No.:");
 			cardNo = MenuInterface.readInt();
 	
-			checkId = MenuInterface.ifNotExists(con, cardNo, "cardNo", "tbl_borrower");
+			checkId = borrService.ifNotExists(con, cardNo, checkId);
 		}
 		
 		checkId = loanServ.loansExist(con, cardNo, "cardNo");

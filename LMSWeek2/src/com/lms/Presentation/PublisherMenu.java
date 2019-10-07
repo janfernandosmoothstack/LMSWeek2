@@ -60,7 +60,7 @@ public class PublisherMenu implements MenuInterface{
 			System.out.println("\nPlease enter the publisher ID:");
 			pubId = MenuInterface.readInt();
 			
-			checkId = MenuInterface.ifExists(con, pubId, "publisherId", "tbl_publisher");
+			checkId = pubService.ifExists(con, pubId, checkId);
 		}
 		
 		System.out.println("Please enter the publisher's name:");
@@ -90,7 +90,7 @@ public class PublisherMenu implements MenuInterface{
 			System.out.println("\nPlease enter the publisher ID:");
 			pubId = MenuInterface.readInt();
 			
-			checkId = MenuInterface.ifNotExists(con, pubId, "publisherId", "tbl_publisher");
+			checkId = pubService.ifNotExists(con, pubId, checkId);
 		}
 		
 		System.out.println("Please enter the new publisher's name or N/A for no change:");
@@ -129,7 +129,7 @@ public class PublisherMenu implements MenuInterface{
 			System.out.println("\nPlease enter the publisher ID:");
 			pubId = MenuInterface.readInt();
 			
-			checkId = MenuInterface.ifNotExists(con, pubId, "publisherId", "tbl_publisher");
+			checkId = pubService.ifNotExists(con, pubId, checkId);
 		}
 		
 		System.out.println("Warning: Deleting this publisher will delete all the books associated to it.");

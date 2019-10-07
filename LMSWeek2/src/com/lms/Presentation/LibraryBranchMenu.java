@@ -58,7 +58,7 @@ public class LibraryBranchMenu implements MenuInterface {
 			System.out.println("\nPlease enter the library branch ID:");
 			libBranId = MenuInterface.readInt();
 	
-			checkId = MenuInterface.ifExists(con, libBranId, "branchId", "tbl_library_branch");
+			checkId = libBranServ.ifExists(con, libBranId, checkId);
 		}
 		
 		System.out.println("Please enter the library branch's name:");
@@ -84,7 +84,7 @@ public class LibraryBranchMenu implements MenuInterface {
 			System.out.println("\nPlease enter the library branch ID:");
 			libBranId = MenuInterface.readInt();
 	
-			checkId = MenuInterface.ifNotExists(con, libBranId, "branchId", "tbl_library_branch");
+			checkId = libBranServ.ifNotExists(con, libBranId, checkId);
 		}
 		
 		System.out.println("Please enter the new library branch's name or N/A for no change:");
@@ -117,7 +117,7 @@ public class LibraryBranchMenu implements MenuInterface {
 			System.out.println("\nPlease enter the library branch ID:");
 			libBranId = MenuInterface.readInt();
 	
-			checkId = MenuInterface.ifNotExists(con, libBranId, "branchId", "tbl_library_branch");
+			checkId = libBranServ.ifNotExists(con, libBranId, checkId);
 		}
 		
 		System.out.println("Warning: You are about to delete a library branch...");

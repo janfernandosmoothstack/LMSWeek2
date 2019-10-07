@@ -42,60 +42,6 @@ public interface MenuInterface {
 		return;
 	}
 	
-	//Makes sure the ID does not exist
-	public static boolean ifExists (Connection con, int id, String idFieldName, String tblName) {
-		PreparedStatement ps = null;
-		boolean checkId = false;
-		
-		try {
-			String sql = "SELECT " + idFieldName + " FROM " + tblName
-					+ " WHERE " + idFieldName + " = ?";
-			
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, id);
-			ResultSet rs = ps.executeQuery();
-			
-			//if that ID exists in that table
-			if(rs.next()) {
-				System.out.println("ID already exists.");
-			} else {
-				checkId = true;
-			}
-			
-		} catch (SQLException e) {
-			System.out.println(e);
-		}
-		
-		return checkId;
-	}
-	
-	//Makes sure the ID exists
-	public static boolean ifNotExists(Connection con, int id, String idFieldName, String tblName) {
-		PreparedStatement ps = null;
-		boolean checkId = false;
-		
-		try {
-			String sql = "SELECT " + idFieldName + " FROM " + tblName
-					+ " WHERE " + idFieldName + " = ?";
-			
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, id);
-			ResultSet rs = ps.executeQuery();
-			
-			//if that ID exists in that table
-			if(rs.next()) {
-				checkId = true;
-			} else {
-				System.out.println("ID does not exists.");
-			}
-			
-		} catch (SQLException e) {
-			System.out.println(e);
-		}
-		
-		return checkId;
-	}
-	
 	public static void clr() {  
 	    try {
 	    	new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();

@@ -129,7 +129,7 @@ public class LibBranchDAO extends DAO {
 		}
 	}
 	
-	public List<LibraryBranch> readlibBran(Connection con) {
+	public List<LibraryBranch> readLibBran(Connection con) {
 		List<LibraryBranch> libBranList = null;
 		
 		try {

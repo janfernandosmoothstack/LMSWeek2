@@ -1,8 +1,10 @@
 package com.lms.Service;
 
 import java.sql.Connection;
+import java.util.List;
 
 import com.lms.DAO.LibBranchDAO;
+import com.lms.POJO.LibraryBranch;
 
 public class LibBranService {
 	LibBranchDAO libBranDAO = new LibBranchDAO();
@@ -34,5 +36,27 @@ public class LibBranService {
 	
 	public void dispatch(Connection con, int libBranId, int newBranId) {
 		libBranDAO.dispatchBooks(con, libBranId, newBranId);
+	}
+	
+	public boolean ifExists(Connection con, int libBranId, boolean checkId) {
+		List<LibraryBranch> list = libBranDAO.readLibBran(con);
+		
+		for(LibraryBranch i : list) {
+			if(i.getBranchId() == libBranId) {
+				return checkId = false;
+			}
+		}
+		return checkId = true;
+	}
+	
+	public boolean ifNotExists(Connection con, int libBranId, boolean checkId) {
+		List<LibraryBranch> list = libBranDAO.readLibBran(con);
+		
+		for(LibraryBranch i : list) {
+			if(i.getBranchId() == libBranId) {
+				return checkId = true;
+			}
+		}
+		return checkId = false;
 	}
 }

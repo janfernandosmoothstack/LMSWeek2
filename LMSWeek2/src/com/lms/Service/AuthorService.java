@@ -1,8 +1,10 @@
 package com.lms.Service;
 
 import java.sql.Connection;
+import java.util.List;
 
 import com.lms.DAO.AuthorDAO;
+import com.lms.POJO.Author;
 
 public class AuthorService{
 	AuthorDAO authorDAO = new AuthorDAO();
@@ -25,5 +27,27 @@ public class AuthorService{
 	
 	public void viewAuthor(Connection con) {
 		authorDAO.readViewAuthor(con);
+	}
+	
+	public boolean ifExists(Connection con, int authId, boolean checkId) {
+		List<Author> list = authorDAO.readAuthor(con);
+		
+		for(Author i : list) {
+			if(i.getAuthorId() == authId) {
+				return checkId = false;
+			}
+		}
+		return checkId = true;
+	}
+	
+	public boolean ifNotExists(Connection con, int authId, boolean checkId) {
+		List<Author> list = authorDAO.readAuthor(con);
+		
+		for(Author i : list) {
+			if(i.getAuthorId() == authId) {
+				return checkId = true;
+			}
+		}
+		return checkId = false;
 	}
 }

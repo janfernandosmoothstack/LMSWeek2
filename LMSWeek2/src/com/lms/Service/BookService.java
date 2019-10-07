@@ -1,8 +1,10 @@
 package com.lms.Service;
 
 import java.sql.Connection;
+import java.util.List;
 
 import com.lms.DAO.BookDAO;
+import com.lms.POJO.Book;
 
 public class BookService {
 	BookDAO bookDAO = new BookDAO();
@@ -13,8 +15,12 @@ public class BookService {
 		System.out.println("\nBook created successfully.");
 	}
 	
-	public void updateBook(Connection con, int bookId, String newData, String fieldName) {
-		bookDAO.writeUpdateBook(con, bookId, newData, fieldName);
+	public void updateBookString(Connection con, int bookId, String newData, String fieldName) {
+		bookDAO.writeUpdateBookS(con, bookId, newData, fieldName);
+	}
+	
+	public void updateBookInt(Connection con, int bookId, int newData, String fieldName) {
+		bookDAO.writeUpdateBookI(con, bookId, newData, fieldName);
 	}
 	
 	public void deleteBook(Connection con, int bookId) {
@@ -25,5 +31,27 @@ public class BookService {
 	
 	public void viewBook(Connection con) {
 		bookDAO.readViewBook(con);
+	}
+	
+	public boolean ifExists(Connection con, int bookId, boolean checkId) {
+		List<Book> list = bookDAO.readBook(con);
+		
+		for(Book i : list) {
+			if(i.getBookId() == bookId) {
+				return checkId = false;
+			}
+		}
+		return checkId = true;
+	}
+	
+	public boolean ifNotExists(Connection con, int bookId, boolean checkId) {
+		List<Book> list = bookDAO.readBook(con);
+		
+		for(Book i : list) {
+			if(i.getBookId() == bookId) {
+				return checkId = true;
+			}
+		}
+		return checkId = false;
 	}
 }

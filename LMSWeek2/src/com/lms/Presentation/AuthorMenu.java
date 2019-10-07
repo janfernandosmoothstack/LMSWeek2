@@ -58,7 +58,7 @@ public class AuthorMenu implements MenuInterface {
 			System.out.println("\nPlease enter the author ID:");
 			authorId = MenuInterface.readInt();
 			
-			checkId = MenuInterface.ifExists(con, authorId, "authorId", "tbl_author");
+			checkId = authService.ifExists(con, authorId, checkId);
 		}
 		
 		System.out.println("Please enter the author's name:");
@@ -81,7 +81,8 @@ public class AuthorMenu implements MenuInterface {
 			System.out.println("\nPlease enter the author ID:");
 			authorId = MenuInterface.readInt();
 			
-			checkId = MenuInterface.ifNotExists(con, authorId, "authorId", "tbl_author");
+			checkId = authService.ifNotExists(con, authorId, checkId);
+			
 		}
 		
 		System.out.println("Please enter the new author's name or N/A for no change:");
@@ -107,7 +108,7 @@ public class AuthorMenu implements MenuInterface {
 			System.out.println("\nPlease enter the author ID:");
 			authorId = MenuInterface.readInt();
 			
-			checkId = MenuInterface.ifNotExists(con, authorId, "authorId", "tbl_author");
+			checkId = authService.ifNotExists(con, authorId, checkId);
 		}
 		
 		System.out.println("Warning: Deleting this author will delete all the books associated to it.");

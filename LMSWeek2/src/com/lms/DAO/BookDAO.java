@@ -39,8 +39,11 @@ public class BookDAO extends DAO{
 		}
 	}
 	
-	public void writeUpdateBook(Connection con, int bookId, String newData, String fieldName) {
+	public void writeUpdateBookS(Connection con, int bookId, String newData, String fieldName) {
 		super.updateString(con, bookId, newData, fieldName, "bookId", "tbl_book");
+	}
+	public void writeUpdateBookI(Connection con, int bookId, int newData, String fieldName) {
+		super.updateInt(con, bookId, newData, fieldName, "bookId", "tbl_book");
 	}
 	
 	public void writeDeleteBook(Connection con, int bookId) {
@@ -77,7 +80,7 @@ public class BookDAO extends DAO{
 		
 		try {
 			Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT bookId, title, authId, pubId FROM tbl_publisher");         
+            ResultSet rs = st.executeQuery("SELECT bookId, title, authId, pubId FROM tbl_book");         
 
         	bookList = new ArrayList<Book>();
         	
@@ -87,11 +90,11 @@ public class BookDAO extends DAO{
             	book.setTitle(rs.getString("title"));
             	
             	Author author = new Author();
-            	author.setAuthorId(rs.getInt("authorId"));
+            	author.setAuthorId(rs.getInt("authId"));
             	book.setAuthor(author);
             	
             	Publisher pub = new Publisher();
-            	pub.setPublisherId(rs.getInt("publisherId"));
+            	pub.setPublisherId(rs.getInt("pubId"));
             	book.setPublisher(pub);
             	
             	bookList.add(book);

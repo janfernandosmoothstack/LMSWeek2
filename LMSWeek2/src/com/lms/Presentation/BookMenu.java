@@ -2,12 +2,17 @@ package com.lms.Presentation;
 
 import java.sql.Connection;
 
+import com.lms.Service.AuthorService;
 import com.lms.Service.BookService;
 import com.lms.Service.LoansService;
+import com.lms.Service.PublisherService;
 
 public class BookMenu implements MenuInterface{
 	BookService bookService = new BookService();
 	LoansService loanServ = new LoansService();
+	PublisherService pubService = new PublisherService();
+	AuthorService authService = new AuthorService();
+	
 	String choice = "";
 	
 	public void showMenu(Connection con) {
@@ -61,24 +66,28 @@ public class BookMenu implements MenuInterface{
 			System.out.println("\nPlease enter the book ID:");
 			bookId = MenuInterface.readInt();
 	
-			checkId = MenuInterface.ifExists(con, bookId, "bookId", "tbl_book");
+			checkId = bookService.ifExists(con, bookId, checkId);
 		}
 		
 		System.out.println("Please enter the book's title:");
 		title = MenuInterface.readString();
 		
+		checkId = false;
+		
 		while(checkId != true) {
 			System.out.println("Please enter the author's ID:");
 			authId = MenuInterface.readInt();
 	
-			checkId = MenuInterface.ifNotExists(con, authId, "authorId", "tbl_author");
+			checkId = authService.ifNotExists(con, authId, checkId);
 		}
+		
+		checkId = false;
 		
 		while(checkId != true) {
 			System.out.println("Please enter the publisher's ID:");
 			pubId = MenuInterface.readInt();
 	
-			checkId = MenuInterface.ifNotExists(con, pubId, "publisherId", "tbl_publisher");
+			checkId = pubService.ifNotExists(con, pubId, checkId);
 		}
 		
 		bookService.createBook(con, bookId, title, authId, pubId);
@@ -99,34 +108,51 @@ public class BookMenu implements MenuInterface{
 			System.out.println("\nPlease enter the book ID:");
 			bookId = MenuInterface.readInt();
 	
-			checkId = MenuInterface.ifNotExists(con, bookId, "bookId", "tbl_book");
+			checkId = bookService.ifNotExists(con, bookId, checkId);
 		}
 		
-		System.out.println("Please enter the new book's title:");
+		System.out.println("Please enter the new book's title or N/A for no change:");
 		title = MenuInterface.readString();
 		
 		if(!title.equalsIgnoreCase("N/A")) {
-			bookService.updateBook(con, pubId, title, "title");
+			bookService.updateBookString(con, bookId, title, "title");
 		}
 		
-		//if(!title.equalsIgnoreCase("N/A")) {
-			//bookService.updateBook(con, pubId, title, "title");
-		//}
+		checkId = false;
 		
 		while(checkId != true) {
-			System.out.println("Please enter the new author's ID:");
+			System.out.println("Please enter the new author's ID or 0 for no change:");
 			authId = MenuInterface.readInt();
-	
-			checkId = MenuInterface.ifNotExists(con, authId, "authorId", "tbl_author");
+			
+			if(authId != 0) {
+				checkId = authService.ifNotExists(con, authId, checkId);
+				
+				if (checkId == true) {
+					bookService.updateBookInt(con, bookId, authId, "authId");
+				}
+			} else {
+				checkId = true;
+			}
 		}
 		
+		checkId = false;
+		
 		while(checkId != true) {
-			System.out.println("Please enter the new publisher's ID:");
+			System.out.println("Please enter the new publisher's ID or 0 for no change:");
 			pubId = MenuInterface.readInt();
-	
-			checkId = MenuInterface.ifNotExists(con, pubId, "publisherId", "tbl_publisher");
+			
+			if(pubId != 0) {
+				checkId = pubService.ifNotExists(con, pubId, checkId);
+				
+				if (checkId == true) {
+					bookService.updateBookInt(con, bookId, pubId, "pubId");
+				}
+			} else {
+				checkId = true;
+			}
 		}
 
+		System.out.println("\nBook updated successfully.");
 		MenuInterface.cont();
 	}
 	
@@ -138,7 +164,7 @@ public class BookMenu implements MenuInterface{
 			System.out.println("\nPlease enter the book ID:");
 			bookId = MenuInterface.readInt();
 	
-			checkId = MenuInterface.ifNotExists(con, bookId, "bookId", "tbl_book");
+			checkId = bookService.ifNotExists(con, bookId, checkId);
 		}
 		
 		checkId = loanServ.loansExist(con, bookId, "bookId");

@@ -29,7 +29,7 @@ public class DAO {
 		}
 	}
 	
-	public void updateInt(Connection con, int id, int newData, String idFieldName, String fieldName, String tblName) {
+	public void updateInt(Connection con, int id, int newData, String fieldName, String idFieldName, String tblName) {
 		PreparedStatement ps = null;
 		
 		try {
