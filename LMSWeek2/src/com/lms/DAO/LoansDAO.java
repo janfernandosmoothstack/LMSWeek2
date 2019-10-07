@@ -18,8 +18,10 @@ import com.lms.POJO.LibraryBranch;
 import java.sql.Date;
 
 public class LoansDAO {
+	static BorrowerUserMenu bmenu = new BorrowerUserMenu();
+
 	public void writeLoans(Connection con, int cardNo, int bhId, int bkId) {
-		Calendar c = Calendar.getInstance();
+		 Calendar c = Calendar.getInstance();
 		Date startDate = new Date(c.getTime().getTime());
 		PreparedStatement ps = null;
 		
@@ -37,17 +39,19 @@ public class LoansDAO {
 
 			System.out.println ("You were able to sucessfully checkout a book.");
 			System.out.println ("");
-			//BorrowerUserMenu.showMenu(con, cardNo);
+			bmenu.showMenu(con, cardNo);
 		 	
 		} catch (SQLException e) {
 			System.out.println(e);
-		} finally {
-			try {
+	} 
+			finally {
+		try {
 				ps.close();
 			} catch (SQLException e) {
 			System.out.println(e);
 			}
 		}
+	
 	}
 	
 	public boolean readExistsLoans(Connection con, int id, String idFieldName) {

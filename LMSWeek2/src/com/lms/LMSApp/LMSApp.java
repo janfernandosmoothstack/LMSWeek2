@@ -1,4 +1,4 @@
-package com.lms.test;
+package com.lms.LMSApp;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import com.lms.Presentation.MainMenu;
 
-public class Test {
+public class LMSApp {
 	public static void main(String[] args) {
 		Connection con = null;
 		try {

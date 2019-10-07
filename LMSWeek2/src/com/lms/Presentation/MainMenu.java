@@ -1,6 +1,7 @@
 package com.lms.Presentation;
 
 import java.sql.Connection;
+import java.util.InputMismatchException;
 
 public class MainMenu implements MenuInterface{
 	public void showMenu(Connection con) {
@@ -27,16 +28,21 @@ public class MainMenu implements MenuInterface{
 				
 				switch(choice) {
 					case "1": //Librarian
-						//LibrarianMenu librarian = new LibrarianMenu();
-						//librarian.showMenu();
+						LibrarianMenu librarian = new LibrarianMenu();
+						librarian.showMenu();
 						
 						checkChoice = true;
 						break;
 					case "2": //Borrower
-						//BorrowerUserMenu borrower = new BorrowerUserMenu();
-			            //borrower.readCardNo(con);
-			               
-						checkChoice = true;
+						try {
+							BorrowerUserMenu borrower = new BorrowerUserMenu();
+							borrower.readCardNo(con);
+						} catch(InputMismatchException e) {
+							System.out.println("Please enter an Integer, returning to previous menu");
+						} finally {
+							checkChoice = true;
+						}
+			       
 						break;
 					case "3": //Admin
 						AdminMenu admin = new AdminMenu();
