@@ -17,8 +17,9 @@ public class BorrowerUserMenu {
 	
 	//gets card no
 	public void readCardNo(Connection con) {
+		
 		System.out.print("Please enter your Card No:  " );
-	int cardNo = MenuInterface.readInt();
+		int cardNo = MenuInterface.readInt();
 		PreparedStatement ps = null;
 		
 		//validation if card No exists

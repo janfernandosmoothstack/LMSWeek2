@@ -17,6 +17,8 @@ public class LibrarianMenu implements MenuInterface
 	{
 		String choice = "";
 		boolean checkChoice = false;
+		
+		MenuInterface.clr();
 
 		do 
 		{
@@ -103,6 +105,7 @@ public class LibrarianMenu implements MenuInterface
 		catch(InputMismatchException e)
 		{
 			System.out.println("Please enter an Integer, returning to previous menu \n");
+			MenuInterface.threadSleep();
 			showMenu(con);
 		}
 	}
@@ -113,7 +116,9 @@ public class LibrarianMenu implements MenuInterface
 
 		String choice = "";
 		boolean checkChoice = false;
-
+		
+		MenuInterface.clr();
+		
 		do
 		{
 			String menu = 	"\nPick an option\n" +
@@ -288,6 +293,7 @@ public class LibrarianMenu implements MenuInterface
 		catch(InputMismatchException e)
 		{
 			System.out.println("Please enter an Integer, returning to previous menu");
+			MenuInterface.threadSleep();
 			showSubMenu(con, brId, brName);
 		}
 	}

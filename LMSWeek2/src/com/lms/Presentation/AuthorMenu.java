@@ -1,6 +1,7 @@
 package com.lms.Presentation;
 
 import java.sql.Connection;
+import java.util.InputMismatchException;
 
 import com.lms.Service.AuthorService;
 
@@ -53,12 +54,18 @@ public class AuthorMenu implements MenuInterface {
 		int authorId = 0;
 		String authorName = "";
 		
-		//Validate ID
-		while(checkId != true) {
-			System.out.println("\nPlease enter the author ID:");
-			authorId = MenuInterface.readInt();
-			
-			checkId = authService.ifExists(con, authorId, checkId);
+		try {
+			//Validate ID
+			while(checkId != true) {
+				System.out.println("\nPlease enter the author ID:");
+				authorId = MenuInterface.readInt();
+				
+				checkId = authService.ifExists(con, authorId, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		System.out.println("Please enter the author's name:");
@@ -66,6 +73,7 @@ public class AuthorMenu implements MenuInterface {
 		
 		authService.createAuthor(con, authorId, authorName);
 		MenuInterface.cont();
+		
 	}
 	
 	public void toUpdate(Connection con) {
@@ -76,13 +84,19 @@ public class AuthorMenu implements MenuInterface {
 		System.out.println();
 		authService.viewAuthor(con);
 		
-		//Validate ID
-		while(checkId != true) {
-			System.out.println("\nPlease enter the author ID:");
-			authorId = MenuInterface.readInt();
-			
-			checkId = authService.ifNotExists(con, authorId, checkId);
-			
+		try {
+			//Validate ID
+			while(checkId != true) {
+				System.out.println("\nPlease enter the author ID:");
+				authorId = MenuInterface.readInt();
+				
+				checkId = authService.ifNotExists(con, authorId, checkId);
+				
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		System.out.println("Please enter the new author's name or N/A for no change:");
@@ -103,12 +117,18 @@ public class AuthorMenu implements MenuInterface {
 		System.out.println();
 		authService.viewAuthor(con);
 		
-		//Validate ID
-		while(checkId != true) {
-			System.out.println("\nPlease enter the author ID:");
-			authorId = MenuInterface.readInt();
-			
-			checkId = authService.ifNotExists(con, authorId, checkId);
+		try {
+			//Validate ID
+			while(checkId != true) {
+				System.out.println("\nPlease enter the author ID:");
+				authorId = MenuInterface.readInt();
+				
+				checkId = authService.ifNotExists(con, authorId, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		System.out.println("Warning: Deleting this author will delete all the books associated to it.");

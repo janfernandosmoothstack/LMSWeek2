@@ -1,36 +1,14 @@
 package com.lms.DAO;
 
 import java.sql.*;
-import com.lms.Presentation.LibrarianMenu;
 
 public class DaoLibrarian 
 {
-	
-   public static void main(String[] args) {
-   Connection con = null;
-   try
-   {	   		
-        Class.forName("com.mysql.jdbc.Driver");
-        con=DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Brownlenovo5!");
-              
-       LibrarianMenu lib = new LibrarianMenu();
-       lib.showMenu(con);
-               
+	public void UpdateBranchName(Connection con, String brName, int brId) throws SQLException {
+        PreparedStatement ps =  con.prepareStatement("UPDATE tbl_library_branch SET branchName =  ?"
+                + " WHERE branchId = ?");
+        ps.setString(1, brName);
+        ps.setInt(2, brId);
+        ps.executeUpdate();
     }
-    catch(Exception e)
-    {
-        System.out.println(e);
-     }
-    finally 
-    {
-    	try 
-    	{
-			con.close();
-		} 
-    	catch (SQLException e)
-    	{
-			System.out.println(e);
-		}
-       }
-      }
 }

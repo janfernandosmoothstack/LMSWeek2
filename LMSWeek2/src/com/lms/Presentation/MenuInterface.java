@@ -42,6 +42,17 @@ public interface MenuInterface {
 		return;
 	}
 	
+	public static void threadSleep()  {
+        //long start = System.currentTimeMillis();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            System.out.println("Error");
+        }
+        //System.out.println("Sleep time in ms = "+(System.currentTimeMillis()-start));
+    }
+	
 	public static void clr() {  
 	    try {
 	    	new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
