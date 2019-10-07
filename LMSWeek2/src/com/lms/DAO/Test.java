@@ -1,3 +1,4 @@
+
 package com.lms.DAO;
 
 import java.sql.Connection;
@@ -6,8 +7,11 @@ import java.sql.SQLException;
 import java.util.InputMismatchException;
 
 import com.lms.Presentation.BorrowerUserMenu;
+import com.lms.Presentation.MainMenu;
 
 public class Test {
+	static MainMenu main = new MainMenu();
+	
 	public static void main(String[] args) {
 		Connection con = null;
 		try {
@@ -22,6 +26,9 @@ public class Test {
 		catch(InputMismatchException e)
         {
                  System.out.println("Please enter an Integer, returning to previous menu");
+
+					main.showMenu(con);
+					return;
                 
         }
 		finally {
