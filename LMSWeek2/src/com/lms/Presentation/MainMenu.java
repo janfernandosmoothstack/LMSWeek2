@@ -29,7 +29,7 @@ public class MainMenu implements MenuInterface{
 				switch(choice) {
 					case "1": //Librarian
 						LibrarianMenu librarian = new LibrarianMenu();
-						librarian.showMenu();
+						librarian.showMenu(con);
 						
 						checkChoice = true;
 						break;
@@ -39,6 +39,7 @@ public class MainMenu implements MenuInterface{
 							borrower.readCardNo(con);
 						} catch(InputMismatchException e) {
 							System.out.println("Please enter an Integer, returning to previous menu");
+							showMenu(con);
 						} finally {
 							checkChoice = true;
 						}
