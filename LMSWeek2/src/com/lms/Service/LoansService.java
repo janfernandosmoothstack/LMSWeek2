@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.util.List;
 
 import com.lms.DAO.LoansDAO;
-import com.lms.POJO.Book;
 import com.lms.POJO.BookLoans;
 
 public class LoansService {
