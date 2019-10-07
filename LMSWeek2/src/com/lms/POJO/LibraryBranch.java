@@ -1,7 +1,7 @@
 package com.lms.POJO;
 
 public class LibraryBranch {
-	private String branchId;
+	private int branchId;
 	private String branchName;
 	private String branchAddress;
 	
@@ -9,17 +9,17 @@ public class LibraryBranch {
 		
 	}
 	
-	public LibraryBranch(String branchId, String branchName, String branchAddress) {
+	public LibraryBranch(int branchId, String branchName, String branchAddress) {
 		this.branchId = branchId;
 		this.branchName = branchName;
 		this.branchAddress = branchAddress;
 	}
 
-	public String getBranchId() {
+	public int getBranchId() {
 		return branchId;
 	}
 
-	public void setBranchId(String branchId) {
+	public void setBranchId(int branchId) {
 		this.branchId = branchId;
 	}
 
