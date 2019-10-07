@@ -55,7 +55,7 @@ public class PublisherDAO extends DAO {
 	        ResultSetMetaData rsmd = rs.getMetaData();
 	        int columnsNumber = rsmd.getColumnCount();
 	        
-	        System.out.println("ID\t\tName\t\tAddress\t\tPhone");
+	        System.out.println("ID\t\tName\t\tAddress\t\t\tPhone");
 	    
 	        while (rs.next()) {
 	            //Print one row

@@ -1,6 +1,7 @@
 package com.lms.Presentation;
 
 import java.sql.Connection;
+import java.util.InputMismatchException;
 
 import com.lms.Service.PublisherService;
 
@@ -10,9 +11,7 @@ public class PublisherMenu implements MenuInterface{
 	
 	public void showMenu(Connection con) {
 		do {
-			MenuInterface.clr();
-			
-			System.out.println("Publisher Menu");
+			System.out.println("\nPublisher Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -55,12 +54,18 @@ public class PublisherMenu implements MenuInterface{
 		String pubAddress ="";
 		String pubPhone = "";
 		
-		//Validate ID
-		while(checkId != true) {
-			System.out.println("\nPlease enter the publisher ID:");
-			pubId = MenuInterface.readInt();
-			
-			checkId = pubService.ifExists(con, pubId, checkId);
+		try {
+			//Validate ID
+			while(checkId != true) {
+				System.out.println("\nPlease enter a new the publisher ID:");
+				pubId = MenuInterface.readInt();
+				
+				checkId = pubService.ifExists(con, pubId, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		System.out.println("Please enter the publisher's name:");
@@ -86,11 +91,17 @@ public class PublisherMenu implements MenuInterface{
 		System.out.println();
 		pubService.viewPub(con);
 		
-		while(checkId != true){
-			System.out.println("\nPlease enter the publisher ID:");
-			pubId = MenuInterface.readInt();
-			
-			checkId = pubService.ifNotExists(con, pubId, checkId);
+		try {
+			while(checkId != true){
+				System.out.println("\nPlease enter a valid the publisher ID:");
+				pubId = MenuInterface.readInt();
+				
+				checkId = pubService.ifNotExists(con, pubId, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		System.out.println("Please enter the new publisher's name or N/A for no change:");
@@ -125,11 +136,17 @@ public class PublisherMenu implements MenuInterface{
 		System.out.println();
 		pubService.viewPub(con);
 		
-		while(checkId != true){
-			System.out.println("\nPlease enter the publisher ID:");
-			pubId = MenuInterface.readInt();
-			
-			checkId = pubService.ifNotExists(con, pubId, checkId);
+		try {
+			while(checkId != true){
+				System.out.println("\nPlease enter valid the publisher ID:");
+				pubId = MenuInterface.readInt();
+				
+				checkId = pubService.ifNotExists(con, pubId, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		System.out.println("Warning: Deleting this publisher will delete all the books associated to it.");

@@ -113,7 +113,7 @@ public class LibBranchDAO extends DAO {
 	        ResultSetMetaData rsmd = rs.getMetaData();
 	        int columnsNumber = rsmd.getColumnCount();
 	        
-	        System.out.println("ID\t\tName\t\t\tAddress");
+	        System.out.println("ID\t\tName\t\tAddress");
 	    
 	        while (rs.next()) {
 	            //Print one row

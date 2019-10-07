@@ -1,6 +1,7 @@
 package com.lms.Presentation;
 
 import java.sql.Connection;
+import java.util.InputMismatchException;
 
 import com.lms.Service.LibBranService;
 
@@ -10,9 +11,7 @@ public class LibraryBranchMenu implements MenuInterface {
 	
 	public void showMenu(Connection con) {
 		do {
-			MenuInterface.clr();
-			
-			System.out.println("Library Branch Menu");
+			System.out.println("\nLibrary Branch Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -54,11 +53,17 @@ public class LibraryBranchMenu implements MenuInterface {
 		String libBranName = "";
 		String libBranAddress ="";
 		
-		while(checkId != true) {
-			System.out.println("\nPlease enter the library branch ID:");
-			libBranId = MenuInterface.readInt();
-	
-			checkId = libBranServ.ifExists(con, libBranId, checkId);
+		try {
+			while(checkId != true) {
+				System.out.println("\nPlease enter a new the library branch ID:");
+				libBranId = MenuInterface.readInt();
+		
+				checkId = libBranServ.ifExists(con, libBranId, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		System.out.println("Please enter the library branch's name:");
@@ -80,11 +85,17 @@ public class LibraryBranchMenu implements MenuInterface {
 		System.out.println();
 		libBranServ.viewLibBran(con);
 		
-		while(checkId != true) {
-			System.out.println("\nPlease enter the library branch ID:");
-			libBranId = MenuInterface.readInt();
-	
-			checkId = libBranServ.ifNotExists(con, libBranId, checkId);
+		try {
+			while(checkId != true) {
+				System.out.println("\nPlease enter a valid the library branch ID:");
+				libBranId = MenuInterface.readInt();
+		
+				checkId = libBranServ.ifNotExists(con, libBranId, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		System.out.println("Please enter the new library branch's name or N/A for no change:");
@@ -113,11 +124,17 @@ public class LibraryBranchMenu implements MenuInterface {
 		System.out.println();
 		libBranServ.viewLibBran(con);
 		
-		while(checkId != true) {
-			System.out.println("\nPlease enter the library branch ID:");
-			libBranId = MenuInterface.readInt();
-	
-			checkId = libBranServ.ifNotExists(con, libBranId, checkId);
+		try {
+			while(checkId != true) {
+				System.out.println("\nPlease enter a valid the library branch ID:");
+				libBranId = MenuInterface.readInt();
+		
+				checkId = libBranServ.ifNotExists(con, libBranId, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		System.out.println("Warning: You are about to delete a library branch...");

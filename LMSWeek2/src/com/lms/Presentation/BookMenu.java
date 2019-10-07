@@ -1,6 +1,7 @@
 package com.lms.Presentation;
 
 import java.sql.Connection;
+import java.util.InputMismatchException;
 
 import com.lms.Service.AuthorService;
 import com.lms.Service.BookService;
@@ -16,10 +17,8 @@ public class BookMenu implements MenuInterface{
 	String choice = "";
 	
 	public void showMenu(Connection con) {
-		do {
-			MenuInterface.clr();
-			
-			System.out.println("Book Menu");
+		do {	
+			System.out.println("\nBook Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -62,11 +61,17 @@ public class BookMenu implements MenuInterface{
 		int authId = 0;
 		int pubId = 0;
 		
-		while(checkId != true) {
-			System.out.println("\nPlease enter the book ID:");
-			bookId = MenuInterface.readInt();
-	
-			checkId = bookService.ifExists(con, bookId, checkId);
+		try {
+			while(checkId != true) {
+				System.out.println("\nPlease enter a new the book ID:");
+				bookId = MenuInterface.readInt();
+		
+				checkId = bookService.ifExists(con, bookId, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		System.out.println("Please enter the book's title:");
@@ -74,20 +79,32 @@ public class BookMenu implements MenuInterface{
 		
 		checkId = false;
 		
-		while(checkId != true) {
-			System.out.println("Please enter the author's ID:");
-			authId = MenuInterface.readInt();
-	
-			checkId = authService.ifNotExists(con, authId, checkId);
+		try {
+			while(checkId != true) {
+				System.out.println("Please enter a valid the author's ID:");
+				authId = MenuInterface.readInt();
+		
+				checkId = authService.ifNotExists(con, authId, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		checkId = false;
 		
-		while(checkId != true) {
-			System.out.println("Please enter the publisher's ID:");
-			pubId = MenuInterface.readInt();
-	
-			checkId = pubService.ifNotExists(con, pubId, checkId);
+		try {
+			while(checkId != true) {
+				System.out.println("Please enter a valid the publisher's ID:");
+				pubId = MenuInterface.readInt();
+		
+				checkId = pubService.ifNotExists(con, pubId, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		bookService.createBook(con, bookId, title, authId, pubId);
@@ -104,11 +121,17 @@ public class BookMenu implements MenuInterface{
 		System.out.println();
 		bookService.viewBook(con);
 		
-		while(checkId != true) {
-			System.out.println("\nPlease enter the book ID:");
-			bookId = MenuInterface.readInt();
-	
-			checkId = bookService.ifNotExists(con, bookId, checkId);
+		try {
+			while(checkId != true) {
+				System.out.println("\nPlease enter a valid the book ID:");
+				bookId = MenuInterface.readInt();
+		
+				checkId = bookService.ifNotExists(con, bookId, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		System.out.println("Please enter the new book's title or N/A for no change:");
@@ -120,36 +143,48 @@ public class BookMenu implements MenuInterface{
 		
 		checkId = false;
 		
-		while(checkId != true) {
-			System.out.println("Please enter the new author's ID or 0 for no change:");
-			authId = MenuInterface.readInt();
-			
-			if(authId != 0) {
-				checkId = authService.ifNotExists(con, authId, checkId);
+		try {
+			while(checkId != true) {
+				System.out.println("Please enter the new author's ID or 0 for no change:");
+				authId = MenuInterface.readInt();
 				
-				if (checkId == true) {
-					bookService.updateBookInt(con, bookId, authId, "authId");
+				if(authId != 0) {
+					checkId = authService.ifNotExists(con, authId, checkId);
+					
+					if (checkId == true) {
+						bookService.updateBookInt(con, bookId, authId, "authId");
+					}
+				} else {
+					checkId = true;
 				}
-			} else {
-				checkId = true;
 			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		checkId = false;
 		
-		while(checkId != true) {
-			System.out.println("Please enter the new publisher's ID or 0 for no change:");
-			pubId = MenuInterface.readInt();
-			
-			if(pubId != 0) {
-				checkId = pubService.ifNotExists(con, pubId, checkId);
+		try {
+			while(checkId != true) {
+				System.out.println("Please enter the new publisher's ID or 0 for no change:");
+				pubId = MenuInterface.readInt();
 				
-				if (checkId == true) {
-					bookService.updateBookInt(con, bookId, pubId, "pubId");
+				if(pubId != 0) {
+					checkId = pubService.ifNotExists(con, pubId, checkId);
+					
+					if (checkId == true) {
+						bookService.updateBookInt(con, bookId, pubId, "pubId");
+					}
+				} else {
+					checkId = true;
 				}
-			} else {
-				checkId = true;
 			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 
 		System.out.println("\nBook updated successfully.");
@@ -160,11 +195,17 @@ public class BookMenu implements MenuInterface{
 		boolean checkId = false;
 		int bookId = 0;
 		
-		while(checkId != true) {
-			System.out.println("\nPlease enter the book ID:");
-			bookId = MenuInterface.readInt();
-	
-			checkId = bookService.ifNotExists(con, bookId, checkId);
+		try {
+			while(checkId != true) {
+				System.out.println("\nPlease enter a valid the book ID:");
+				bookId = MenuInterface.readInt();
+		
+				checkId = bookService.ifNotExists(con, bookId, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		checkId = loanServ.loansExist(con, bookId, "bookId");

@@ -7,6 +7,7 @@ import com.lms.Service.CopiesService;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.sql.PreparedStatement;
 
@@ -17,8 +18,17 @@ public class BorrowerUserMenu {
 	
 	//gets card no
 	public void readCardNo(Connection con) {
-		System.out.print("Please enter your Card No:  " );
-	int cardNo = MenuInterface.readInt();
+		int cardNo = 0;
+		
+		try {
+			System.out.print("Please enter your Card No:  " );
+			cardNo = MenuInterface.readInt();
+		}
+		catch(InputMismatchException e) {
+			System.out.println("Please enter an Integer, returning to previous menu");
+			return;
+		} 
+		
 		PreparedStatement ps = null;
 		
 		//validation if card No exists

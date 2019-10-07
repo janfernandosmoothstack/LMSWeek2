@@ -1,10 +1,6 @@
 package com.lms.Presentation;
 
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public interface MenuInterface {
@@ -42,10 +38,11 @@ public interface MenuInterface {
 		return;
 	}
 	
-	public static void clr() {  
-	    try {
-	    	new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-	    } catch(IOException | InterruptedException E) {
-	    }
-	}
+	public static void threadSleep()  {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            System.out.println("Error");
+        }
+    }
 }

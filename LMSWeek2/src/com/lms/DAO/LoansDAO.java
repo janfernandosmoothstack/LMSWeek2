@@ -55,6 +55,14 @@ public class LoansDAO {
 	
 	}
 	
+	public void UpdateBorrowerName(Connection con,  int brId, String brAddress) throws SQLException {
+        PreparedStatement ps =  con.prepareStatement("UPDATE tbl_library_branch SET branchAddress =  ?"
+                + " WHERE branchId = ?");
+        ps.setString(1, brAddress);
+        ps.setInt(2, brId);
+        ps.executeUpdate();
+    }
+	
 	public boolean readExistsLoans(Connection con, int id, String idFieldName) {
 		PreparedStatement ps = null;
 		boolean checkId = false;

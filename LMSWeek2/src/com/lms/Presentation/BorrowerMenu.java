@@ -1,6 +1,7 @@
 package com.lms.Presentation;
 
 import java.sql.Connection;
+import java.util.InputMismatchException;
 
 import com.lms.Service.BorrowerService;
 import com.lms.Service.LoansService;
@@ -11,10 +12,8 @@ public class BorrowerMenu implements MenuInterface {
 	String choice = "";
 	
 	public void showMenu(Connection con) {
-		do {
-			MenuInterface.clr();
-			
-			System.out.println("Borrower Menu");
+		do {		
+			System.out.println("\nBorrower Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -57,11 +56,17 @@ public class BorrowerMenu implements MenuInterface {
 		String address ="";
 		String phone = "";
 		
-		while(checkId != true) {
-			System.out.println("\nPlease enter the borrower card No.:");
-			cardNo = MenuInterface.readInt();
-	
-			checkId = borrService.ifExists(con, cardNo, checkId);
+		try {
+			while(checkId != true) {
+				System.out.println("\nPlease enter a new the borrower card No.:");
+				cardNo = MenuInterface.readInt();
+		
+				checkId = borrService.ifExists(con, cardNo, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		System.out.println("Please enter the borrower's name:");
@@ -87,11 +92,17 @@ public class BorrowerMenu implements MenuInterface {
 		System.out.println();
 		borrService.viewBorr(con);
 		
-		while(checkId != true) {
-			System.out.println("\nPlease enter the borrower card No.:");
-			cardNo = MenuInterface.readInt();
-	
-			checkId = borrService.ifNotExists(con, cardNo, checkId);
+		try {
+			while(checkId != true) {
+				System.out.println("\nPlease enter a valid the borrower card No.:");
+				cardNo = MenuInterface.readInt();
+		
+				checkId = borrService.ifNotExists(con, cardNo, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		System.out.println("Please enter the new borrower's name:");
@@ -126,11 +137,17 @@ public class BorrowerMenu implements MenuInterface {
 		System.out.println();
 		borrService.viewBorr(con);
 		
-		while(checkId != true) {
-			System.out.println("\nPlease enter the borrower card No.:");
-			cardNo = MenuInterface.readInt();
-	
-			checkId = borrService.ifNotExists(con, cardNo, checkId);
+		try {
+			while(checkId != true) {
+				System.out.println("\nPlease enter a valid the borrower card No.:");
+				cardNo = MenuInterface.readInt();
+		
+				checkId = borrService.ifNotExists(con, cardNo, checkId);
+			}
+		} catch(InputMismatchException e) {
+			System.out.println("Please enter a number. Returning to previous menu...");
+			MenuInterface.threadSleep();
+			return;
 		}
 		
 		checkId = loanServ.loansExist(con, cardNo, "cardNo");

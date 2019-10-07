@@ -14,7 +14,11 @@ public class LibrarianService {
 		System.out.println("\nExisting number of copies: "+copies);
 		System.out.println("Enter new number of copies: ");
 		int newCopy = MenuInterface.readInt();
-
+		if(newCopy < 0 )
+		{
+		    System.out.println("Please enter a positive number, Returning to previous menu");
+		    return;
+		}
 		try 
 		{
 			PreparedStatement ps =  con.prepareStatement("Update tbl_book_copies SET noOfCopies = ? WHERE bookId = ?");

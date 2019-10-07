@@ -8,9 +8,7 @@ public class MainMenu implements MenuInterface{
 		String choice = "";
 		
 		do {
-			MenuInterface.clr();
-			
-			String menu = "LMS Login\n" +
+			String menu = "\nLMS Login\n" +
 					"1. Librarian\n" +
 					"2. Borrower\n" +
 					"3. Admin\n" +
@@ -34,16 +32,10 @@ public class MainMenu implements MenuInterface{
 						checkChoice = true;
 						break;
 					case "2": //Borrower
-						try {
-							BorrowerUserMenu borrower = new BorrowerUserMenu();
-							borrower.readCardNo(con);
-						} catch(InputMismatchException e) {
-							System.out.println("Please enter an Integer, returning to previous menu");
-							showMenu(con);
-						} finally {
-							checkChoice = true;
-						}
-			       
+						BorrowerUserMenu borrower = new BorrowerUserMenu();
+						borrower.readCardNo(con);
+						
+						checkChoice = true;
 						break;
 					case "3": //Admin
 						AdminMenu admin = new AdminMenu();
