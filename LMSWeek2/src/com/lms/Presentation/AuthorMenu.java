@@ -11,9 +11,7 @@ public class AuthorMenu implements MenuInterface {
 	
 	public void showMenu(Connection con) {
 		do {
-			MenuInterface.clr();
-			
-			System.out.println("Author Menu");
+			System.out.println("\nAuthor Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -57,7 +55,7 @@ public class AuthorMenu implements MenuInterface {
 		try {
 			//Validate ID
 			while(checkId != true) {
-				System.out.println("\nPlease enter the author ID:");
+				System.out.println("\nPlease enter a new the author ID:");
 				authorId = MenuInterface.readInt();
 				
 				checkId = authService.ifExists(con, authorId, checkId);
@@ -87,7 +85,7 @@ public class AuthorMenu implements MenuInterface {
 		try {
 			//Validate ID
 			while(checkId != true) {
-				System.out.println("\nPlease enter the author ID:");
+				System.out.println("\nPlease enter a valid the author ID:");
 				authorId = MenuInterface.readInt();
 				
 				checkId = authService.ifNotExists(con, authorId, checkId);
@@ -120,7 +118,7 @@ public class AuthorMenu implements MenuInterface {
 		try {
 			//Validate ID
 			while(checkId != true) {
-				System.out.println("\nPlease enter the author ID:");
+				System.out.println("\nPlease enter a valid the author ID:");
 				authorId = MenuInterface.readInt();
 				
 				checkId = authService.ifNotExists(con, authorId, checkId);

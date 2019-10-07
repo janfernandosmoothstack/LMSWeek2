@@ -9,6 +9,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import com.lms.DAO.DaoLibrarian;
 
@@ -20,7 +22,7 @@ class LibraryBranchTest {
     @BeforeEach
     public void setUp() throws SQLException
     {
-     con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Brownlenovo5!");
+     con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Iamsherlocked#2.0");
     }
     
     @Test
@@ -29,7 +31,7 @@ class LibraryBranchTest {
             PreparedStatement ps =  con.prepareStatement("SELECT count(branchId) FROM tbl_library_branch");
             ResultSet rs = ps.executeQuery();
             rs.next();
-                assertEquals(5, rs.getInt(1), "Number of branches");
+                assertEquals(4, rs.getInt(1), "Number of branches");
     }
     
     @Test
@@ -49,7 +51,16 @@ class LibraryBranchTest {
         PreparedStatement ps = con.prepareStatement("SELECT branchName FROM tbl_library_branch WHERE branchId = 4");
         ResultSet rs = ps.executeQuery();
         rs.next();        
-            assertEquals("Fairfax", rs.getString(1), "Number of columns");
+            assertEquals("Fairfax", rs.getString(1), "Branch name verified");
+    }
+    
+    @AfterEach
+    public void tearDown() {
+    	try {
+			con.close();
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
     }
 
 }

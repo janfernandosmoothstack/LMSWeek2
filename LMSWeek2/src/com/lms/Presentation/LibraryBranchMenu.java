@@ -11,9 +11,7 @@ public class LibraryBranchMenu implements MenuInterface {
 	
 	public void showMenu(Connection con) {
 		do {
-			MenuInterface.clr();
-			
-			System.out.println("Library Branch Menu");
+			System.out.println("\nLibrary Branch Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -57,7 +55,7 @@ public class LibraryBranchMenu implements MenuInterface {
 		
 		try {
 			while(checkId != true) {
-				System.out.println("\nPlease enter the library branch ID:");
+				System.out.println("\nPlease enter a new the library branch ID:");
 				libBranId = MenuInterface.readInt();
 		
 				checkId = libBranServ.ifExists(con, libBranId, checkId);
@@ -89,7 +87,7 @@ public class LibraryBranchMenu implements MenuInterface {
 		
 		try {
 			while(checkId != true) {
-				System.out.println("\nPlease enter the library branch ID:");
+				System.out.println("\nPlease enter a valid the library branch ID:");
 				libBranId = MenuInterface.readInt();
 		
 				checkId = libBranServ.ifNotExists(con, libBranId, checkId);
@@ -128,7 +126,7 @@ public class LibraryBranchMenu implements MenuInterface {
 		
 		try {
 			while(checkId != true) {
-				System.out.println("\nPlease enter the library branch ID:");
+				System.out.println("\nPlease enter a valid the library branch ID:");
 				libBranId = MenuInterface.readInt();
 		
 				checkId = libBranServ.ifNotExists(con, libBranId, checkId);

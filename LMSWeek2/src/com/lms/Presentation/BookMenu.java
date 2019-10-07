@@ -17,10 +17,8 @@ public class BookMenu implements MenuInterface{
 	String choice = "";
 	
 	public void showMenu(Connection con) {
-		do {
-			MenuInterface.clr();
-			
-			System.out.println("Book Menu");
+		do {	
+			System.out.println("\nBook Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -65,7 +63,7 @@ public class BookMenu implements MenuInterface{
 		
 		try {
 			while(checkId != true) {
-				System.out.println("\nPlease enter the book ID:");
+				System.out.println("\nPlease enter a new the book ID:");
 				bookId = MenuInterface.readInt();
 		
 				checkId = bookService.ifExists(con, bookId, checkId);
@@ -83,7 +81,7 @@ public class BookMenu implements MenuInterface{
 		
 		try {
 			while(checkId != true) {
-				System.out.println("Please enter the author's ID:");
+				System.out.println("Please enter a valid the author's ID:");
 				authId = MenuInterface.readInt();
 		
 				checkId = authService.ifNotExists(con, authId, checkId);
@@ -98,7 +96,7 @@ public class BookMenu implements MenuInterface{
 		
 		try {
 			while(checkId != true) {
-				System.out.println("Please enter the publisher's ID:");
+				System.out.println("Please enter a valid the publisher's ID:");
 				pubId = MenuInterface.readInt();
 		
 				checkId = pubService.ifNotExists(con, pubId, checkId);
@@ -125,7 +123,7 @@ public class BookMenu implements MenuInterface{
 		
 		try {
 			while(checkId != true) {
-				System.out.println("\nPlease enter the book ID:");
+				System.out.println("\nPlease enter a valid the book ID:");
 				bookId = MenuInterface.readInt();
 		
 				checkId = bookService.ifNotExists(con, bookId, checkId);
@@ -199,7 +197,7 @@ public class BookMenu implements MenuInterface{
 		
 		try {
 			while(checkId != true) {
-				System.out.println("\nPlease enter the book ID:");
+				System.out.println("\nPlease enter a valid the book ID:");
 				bookId = MenuInterface.readInt();
 		
 				checkId = bookService.ifNotExists(con, bookId, checkId);

@@ -10,8 +10,7 @@ public class LMSApp {
 	public static void main(String[] args) {
 		Connection con = null;
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","******");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","*******");
             
             MainMenu mainMenu = new MainMenu();
     		mainMenu.showMenu(con);

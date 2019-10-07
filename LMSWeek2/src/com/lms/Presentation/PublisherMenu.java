@@ -11,9 +11,7 @@ public class PublisherMenu implements MenuInterface{
 	
 	public void showMenu(Connection con) {
 		do {
-			MenuInterface.clr();
-			
-			System.out.println("Publisher Menu");
+			System.out.println("\nPublisher Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -59,7 +57,7 @@ public class PublisherMenu implements MenuInterface{
 		try {
 			//Validate ID
 			while(checkId != true) {
-				System.out.println("\nPlease enter the publisher ID:");
+				System.out.println("\nPlease enter a new the publisher ID:");
 				pubId = MenuInterface.readInt();
 				
 				checkId = pubService.ifExists(con, pubId, checkId);
@@ -95,7 +93,7 @@ public class PublisherMenu implements MenuInterface{
 		
 		try {
 			while(checkId != true){
-				System.out.println("\nPlease enter the publisher ID:");
+				System.out.println("\nPlease enter a valid the publisher ID:");
 				pubId = MenuInterface.readInt();
 				
 				checkId = pubService.ifNotExists(con, pubId, checkId);
@@ -140,7 +138,7 @@ public class PublisherMenu implements MenuInterface{
 		
 		try {
 			while(checkId != true){
-				System.out.println("\nPlease enter the publisher ID:");
+				System.out.println("\nPlease enter valid the publisher ID:");
 				pubId = MenuInterface.readInt();
 				
 				checkId = pubService.ifNotExists(con, pubId, checkId);

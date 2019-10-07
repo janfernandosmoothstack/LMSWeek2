@@ -11,6 +11,7 @@ import com.lms.Service.LibrarianService;
 public class LibrarianMenu implements MenuInterface 
 {
 	LibrarianService libService = new LibrarianService();
+	MainMenu main = new MainMenu();
 
 	@Override
 	public void showMenu(Connection con) 
@@ -18,8 +19,6 @@ public class LibrarianMenu implements MenuInterface
 		String choice = "";
 		boolean checkChoice = false;
 		
-		MenuInterface.clr();
-
 		do 
 		{
 			String menu =	 "\nPick an option\n" +
@@ -40,7 +39,7 @@ public class LibrarianMenu implements MenuInterface
 					checkChoice = true;
 					break;
 				case "2":
-					return;
+					main.showMenu(con);
 				default:
 					System.out.println("Please enter a valid option.");
 					break;
@@ -116,8 +115,6 @@ public class LibrarianMenu implements MenuInterface
 
 		String choice = "";
 		boolean checkChoice = false;
-		
-		MenuInterface.clr();
 		
 		do
 		{

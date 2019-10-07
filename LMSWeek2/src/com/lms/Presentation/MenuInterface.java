@@ -1,10 +1,6 @@
 package com.lms.Presentation;
 
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public interface MenuInterface {
@@ -43,20 +39,10 @@ public interface MenuInterface {
 	}
 	
 	public static void threadSleep()  {
-        //long start = System.currentTimeMillis();
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             System.out.println("Error");
         }
-        //System.out.println("Sleep time in ms = "+(System.currentTimeMillis()-start));
     }
-	
-	public static void clr() {  
-	    try {
-	    	new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-	    } catch(IOException | InterruptedException E) {
-	    }
-	}
 }

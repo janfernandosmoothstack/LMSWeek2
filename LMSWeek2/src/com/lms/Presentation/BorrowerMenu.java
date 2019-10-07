@@ -12,10 +12,8 @@ public class BorrowerMenu implements MenuInterface {
 	String choice = "";
 	
 	public void showMenu(Connection con) {
-		do {
-			MenuInterface.clr();
-			
-			System.out.println("Borrower Menu");
+		do {		
+			System.out.println("\nBorrower Menu");
 			MenuInterface.crudMenu();
 			
 			boolean checkChoice = false;
@@ -60,7 +58,7 @@ public class BorrowerMenu implements MenuInterface {
 		
 		try {
 			while(checkId != true) {
-				System.out.println("\nPlease enter the borrower card No.:");
+				System.out.println("\nPlease enter a new the borrower card No.:");
 				cardNo = MenuInterface.readInt();
 		
 				checkId = borrService.ifExists(con, cardNo, checkId);
@@ -96,7 +94,7 @@ public class BorrowerMenu implements MenuInterface {
 		
 		try {
 			while(checkId != true) {
-				System.out.println("\nPlease enter the borrower card No.:");
+				System.out.println("\nPlease enter a valid the borrower card No.:");
 				cardNo = MenuInterface.readInt();
 		
 				checkId = borrService.ifNotExists(con, cardNo, checkId);
@@ -141,7 +139,7 @@ public class BorrowerMenu implements MenuInterface {
 		
 		try {
 			while(checkId != true) {
-				System.out.println("\nPlease enter the borrower card No.:");
+				System.out.println("\nPlease enter a valid the borrower card No.:");
 				cardNo = MenuInterface.readInt();
 		
 				checkId = borrService.ifNotExists(con, cardNo, checkId);
