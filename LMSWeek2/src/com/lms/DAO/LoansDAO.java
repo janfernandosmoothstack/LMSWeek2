@@ -6,7 +6,12 @@ import com.lms.Presentation.BorrowerUserMenu;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import  java.sql.Date;
+
+
 public class LoansDAO {
+	
+	static BorrowerUserMenu bmenu = new BorrowerUserMenu();
+	
 	
 	public void writeLoans(Connection con, int cardNo, int bhId, int bkId) {
 		 Calendar c = Calendar.getInstance();
@@ -27,7 +32,7 @@ public class LoansDAO {
 
 			System.out.println ("You were able to sucessfully checkout a book.");
 			System.out.println ("");
-			BorrowerUserMenu.showMenu(con, cardNo);
+			bmenu.showMenu(con, cardNo);
 		 	
 		} catch (SQLException e) {
 			System.out.println(e);

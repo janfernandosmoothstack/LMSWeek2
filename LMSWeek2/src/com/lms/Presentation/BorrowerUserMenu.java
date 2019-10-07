@@ -3,24 +3,22 @@ package com.lms.Presentation;
 import java.sql.Connection;
 import com.lms.DAO.LoansDAO;
 import com.lms.POJO.*;
-import com.lms.Service.BorrowerService;
+import com.lms.Service.CopiesService;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.sql.PreparedStatement;
 
 public class BorrowerUserMenu {
 	static LoansDAO loans = new LoansDAO();
-	static BorrowerService transaction = new BorrowerService();
+	static CopiesService transaction = new CopiesService();
 	static MainMenu main = new MainMenu();
 	
 	//gets card no
 	public void readCardNo(Connection con) {
 		System.out.print("Please enter your Card No:  " );
-		int cardNo = MenuInterface.readInt();
+	int cardNo = MenuInterface.readInt();
 		PreparedStatement ps = null;
 		
 		//validation if card No exists
@@ -34,21 +32,18 @@ public class BorrowerUserMenu {
 					System.out.println("Invalid input ");
 					readCardNo(con);
 				}
+				
 		}
-		   catch(SQLException e)
+		 catch(Exception e)
         {
             System.out.println(e);
 		
-		}
-		catch (InputMismatchException e) {
-		 System.out.println("Please Enter a numeric value: ");
-		 return;
-		}
-
+		} 
 	}
+
 	
 	//borrower main menu
-	public static void showMenu(Connection con, int cardNo) {
+	public  void showMenu(Connection con, int cardNo) {
 		int choice = 0;
 		
 		do {
@@ -86,7 +81,7 @@ public class BorrowerUserMenu {
 	}
 	
 	//checkout branch menu
-	public static void displayBranchCheckout(Connection con, int cardNo) {
+	public void displayBranchCheckout(Connection con, int cardNo) {
 		
         try {
             Statement st = con.createStatement();
@@ -129,15 +124,16 @@ public class BorrowerUserMenu {
                     }
              }
         }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
+        catch(Exception e)
+        {
+            System.out.println(e);
+		
+		} 
     }
 	
 	
 	// checkout book-list
-		public static void displayBranchBook(Connection con, int cardNo, int bhId) {
+		public void displayBranchBook(Connection con, int cardNo, int bhId) {
 			
 			 try {
 				 PreparedStatement ps = con.prepareStatement("SELECT tbl_book.bookId, CONCAT(tbl_book.title, ' by ' , tbl_author.authorName) AS title  FROM tbl_book INNER JOIN tbl_author ON tbl_book.authId = tbl_author.authorId INNER JOIN tbl_book_copies ON tbl_book.bookId =  tbl_book_copies.bookId INNER JOIN tbl_library_branch ON tbl_book_copies.branchId = tbl_library_branch.branchId WHERE tbl_library_branch.branchId = ? AND tbl_book_copies.noOfCopies >=1 ");
@@ -180,16 +176,16 @@ public class BorrowerUserMenu {
 		                    }
 		             }
 		        }
-		        catch (SQLException e) {
-		            e.printStackTrace();
-		        }
-			
-			
+		        	 catch(Exception e)
+		 	        {
+		 	            System.out.println(e);
+		 			
+		 			} 
 			
 		}
 		
 		//final checkout after selecting book
-		public static void validateCheckout( Connection con, int cardNo, int  bhId, int bkId) {
+		public  void validateCheckout( Connection con, int cardNo, int  bhId, int bkId) {
 			
 			PreparedStatement ps = null;
 			try {
@@ -207,7 +203,7 @@ public class BorrowerUserMenu {
 						loans.writeLoans(con, cardNo, bhId, bkId);
 					}
 			}
-			   catch(Exception e)
+			 catch(Exception e)
 	        {
 	            System.out.println(e);
 			
@@ -217,7 +213,7 @@ public class BorrowerUserMenu {
 		
 	
 	//return branch menu
-	public static void displayBranchReturn(Connection con, int cardNo) {
+	public  void displayBranchReturn(Connection con, int cardNo) {
 		
 		try {
             Statement st = con.createStatement();
@@ -260,17 +256,18 @@ public class BorrowerUserMenu {
                     }
              }
         }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
+		 catch(Exception e)
+        {
+            System.out.println(e);
 		
+		} 
        
         
     }
 	
 	
 	//return book-list
-	public static void displayReturnBranchBook(Connection con, int cardNo, int bhId) {
+	public void displayReturnBranchBook(Connection con, int cardNo, int bhId) {
 		
 		 try {
 	           PreparedStatement ps = con.prepareStatement("SELECT tbl_book.bookId, CONCAT(tbl_book.title, ' by ' , tbl_author.authorName)  AS title FROM tbl_book INNER JOIN tbl_author ON tbl_book.authId = tbl_author.authorId INNER JOIN tbl_book_loans ON tbl_book.bookId =  tbl_book_loans.bookId INNER JOIN tbl_borrower ON tbl_book_loans.cardNo = tbl_borrower.cardNo INNER JOIN tbl_library_branch ON tbl_book_loans.branchId = tbl_library_branch.branchId WHERE tbl_library_branch.branchId = ? AND tbl_borrower.cardNo =?");
@@ -314,16 +311,18 @@ public class BorrowerUserMenu {
 	                    }
 	             }
 	        }
-	        catch (SQLException e) {
-	            e.printStackTrace();
-	        }
+		 catch(Exception e)
+	        {
+	            System.out.println(e);
+			
+			} 
 		
 	
     }
 	
 	
 	//final return after selecting book
-	public static void checkLoans( Connection con, int cardNo, int  bhId,  int  bkId) {
+	public void checkLoans( Connection con, int cardNo, int  bhId,  int  bkId) {
 			
 			PreparedStatement ps = null;
 			try {

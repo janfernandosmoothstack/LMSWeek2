@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 
-public class BorrowerService {
+public class CopiesService {
 	
 		public void returnService(Connection con, int  bhId, int bkId ) {
 			PreparedStatement ps = null;
