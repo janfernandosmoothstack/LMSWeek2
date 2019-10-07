@@ -1,20 +1,10 @@
 package com.lms.POJO;
 
 public class BookCopies {
-	Book book = new Book();
-	LibraryBranch branch = new LibraryBranch();
+	private Book book;
+	private LibraryBranch branch;
 	private int noOfCopies;
 	
-	public BookCopies() {
-		
-	}
-	
-	public BookCopies(Book book, LibraryBranch branch, int noOfCopies) {
-		this.book = book;
-		this.branch = branch;
-		this.noOfCopies = noOfCopies;
-	}
-
 	public Book getBook() {
 		return book;
 	}
