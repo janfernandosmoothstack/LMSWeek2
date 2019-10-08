@@ -15,8 +15,10 @@ public class BorrowerService {
 		System.out.println("\nBorrower created successfully.");
 	}
 	
-	public void updateBorr(Connection con, int cardNo, String newData, String fieldName) {
-		borrDAO.writeUpdateBorr(con, cardNo, newData, fieldName);
+	public void updateBorr(Connection con, int cardNo, String name, String address, String phone) {
+		borrDAO.writeUpdateBorr(con, cardNo, name, address, phone);
+		
+		System.out.println("\nBorrower updated successfully.");
 	}
 	
 	public void deleteBorr(Connection con, int cardNo) {
@@ -27,6 +29,10 @@ public class BorrowerService {
 	
 	public void viewBorr(Connection con) {
 		borrDAO.readViewBorr(con);
+	}
+	
+	public String getData(Connection con, int id, String fieldName) {
+		return borrDAO.getBorrData(con, id, fieldName);
 	}
 	
 	public boolean ifExists(Connection con, int cardNo, boolean checkId) {

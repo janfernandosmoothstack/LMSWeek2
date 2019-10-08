@@ -107,25 +107,25 @@ public class PublisherMenu implements MenuInterface{
 		System.out.println("Please enter the new publisher's name or N/A for no change:");
 		pubName = MenuInterface.readString();
 		
-		if(!pubName.equalsIgnoreCase("N/A")) {
-			pubService.updatePub(con, pubId, pubName, "publisherName");
+		if(pubName.equalsIgnoreCase("N/A")) {
+			pubName = pubService.getData(con, pubId, "publisherName");
 		}	
 		
 		System.out.println("Please enter the new publisher's address or N/A for no change:");
 		pubAddress = MenuInterface.readString();
 		
-		if(!pubAddress.equalsIgnoreCase("N/A")) {
-			pubService.updatePub(con, pubId, pubAddress, "publisherAddress");
+		if(pubAddress.equalsIgnoreCase("N/A")) {
+			pubAddress = pubService.getData(con, pubId, "publisherAddress");
 		}
 		
 		System.out.println("Please enter the new publisher's phone number or N/A for no change:");
 		pubPhone = MenuInterface.readString();
 		
-		if(!pubPhone.equalsIgnoreCase("N/A")) {
-			pubService.updatePub(con, pubId, pubPhone, "publisherPhone");
+		if(pubPhone.equalsIgnoreCase("N/A")) {
+			pubPhone = pubService.getData(con, pubId, "publisherPhone");
 		}
 		
-		System.out.println("\nPublisher updated successfully.");
+		pubService.updatePub(con, pubId, pubName, pubAddress, pubPhone);
 		MenuInterface.cont();
 	}
 	

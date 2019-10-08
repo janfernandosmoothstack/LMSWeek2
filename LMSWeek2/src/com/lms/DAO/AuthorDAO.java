@@ -35,8 +35,28 @@ public class AuthorDAO extends DAO{
 		}
 	}
 	
-	public void writeUpdateAuthor(Connection con, int authorId, String newData, String fieldName) {
-		super.updateString(con, authorId, newData, fieldName, "authorId", "tbl_author");
+	public void writeUpdateAuthor(Connection con, int authorId, String authorName) {
+		PreparedStatement ps = null;
+		
+		try {
+			String sql = "UPDATE tbl_author"
+							+ " SET authorName = ? "
+							+ "WHERE authorId = ?";
+			
+			ps = con.prepareStatement(sql);
+			ps.setString(1, authorName);
+			ps.setInt(2, authorId);
+			ps.executeUpdate();
+		 	
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				System.out.println(e);
+			}
+		}
 	}
 	
 	public void writeDeleteAuthor(Connection con, int authorId) {
@@ -90,5 +110,10 @@ public class AuthorDAO extends DAO{
         }
 		
 		return authorList;
+	}
+	
+	//Get data for field that does not need to be updated
+	public String getAuthorData(Connection con, int id, String fieldName) {
+		return super.getStringData(con, id, "authorId", fieldName, "tbl_author");
 	}
 }

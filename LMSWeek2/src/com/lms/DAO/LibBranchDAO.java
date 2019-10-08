@@ -36,12 +36,38 @@ public class LibBranchDAO extends DAO {
 		}
 	}
 	
-	public void writeUpdateLibBran(Connection con, int branchId, String newData, String fieldName) {
-		super.updateString(con, branchId, newData, fieldName, "branchId", "tbl_library_branch");
+	public void writeUpdateLibBran(Connection con, int branId, String branName, String branAddress) {
+		PreparedStatement ps = null;
+		
+		try {
+			String sql = "UPDATE tbl_library_branch"
+							+ " SET branchName = ?, branchAddress = ? "
+							+ "WHERE branchId = ?";
+			
+			ps = con.prepareStatement(sql);
+			ps.setString(1, branName);
+			ps.setString(2, branAddress);
+			ps.setInt(3, branId);
+			ps.executeUpdate();
+		 	
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				System.out.println(e);
+			}
+		}
 	}
 	
 	public void writeDeleteLibBran(Connection con, int libBranId) {
 		super.delete(con, libBranId, "branchId", "tbl_library_branch");
+	}
+	
+	//Get data for field that does not need to be updated
+	public String getBranData(Connection con, int id, String fieldName) {
+		return super.getStringData(con, id, "branchId", fieldName, "tbl_library_branch");
 	}
 	
 	public void dispatchBooks(Connection con, int libBranId, int newBranId) {

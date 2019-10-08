@@ -15,8 +15,10 @@ public class LibBranService {
 		System.out.println("\nLibrary Branch created successfully.");
 	}
 	
-	public void updateLibBran(Connection con, int branchId, String newData, String fieldName) {
-		libBranDAO.writeUpdateLibBran(con, branchId, newData, fieldName);
+	public void updateLibBran(Connection con, int branchId, String branName, String branAddress) {
+		libBranDAO.writeUpdateLibBran(con, branchId, branName, branName);
+		
+		System.out.println("\nLibrary Branch updated successfully.");
 	}
 	
 	public void deleteLibBran(Connection con, int libBranId) {
@@ -36,6 +38,10 @@ public class LibBranService {
 	
 	public void dispatch(Connection con, int libBranId, int newBranId) {
 		libBranDAO.dispatchBooks(con, libBranId, newBranId);
+	}
+	
+	public String getData(Connection con, int id, String fieldName) {
+		return libBranDAO.getBranData(con, id, fieldName);
 	}
 	
 	public boolean ifExists(Connection con, int libBranId, boolean checkId) {

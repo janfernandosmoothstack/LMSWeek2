@@ -101,18 +101,18 @@ public class LibraryBranchMenu implements MenuInterface {
 		System.out.println("Please enter the new library branch's name or N/A for no change:");
 		libBranName = MenuInterface.readString();
 		
-		if(!libBranName.equalsIgnoreCase("N/A")) {
-			libBranServ.updateLibBran(con, libBranId, libBranName, "branchName");
+		if(libBranName.equalsIgnoreCase("N/A")) {
+			libBranName = libBranServ.getData(con, libBranId, "branchName");
 		}	
 		
 		System.out.println("Please enter the new library branch's address or N/A for no change:");
 		libBranAddress = MenuInterface.readString();
 		
-		if(!libBranAddress.equalsIgnoreCase("N/A")) {
-			libBranServ.updateLibBran(con, libBranId, libBranAddress, "branchAddress");
+		if(libBranAddress.equalsIgnoreCase("N/A")) {
+			libBranAddress = libBranServ.getData(con, libBranId, "branchAddress");
 		}
 		
-		System.out.println("Library Branch updated successfully.");
+		libBranServ.updateLibBran(con, libBranId, libBranName, libBranAddress);
 		MenuInterface.cont();
 	}
 	
