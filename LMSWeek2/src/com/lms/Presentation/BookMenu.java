@@ -137,8 +137,8 @@ public class BookMenu implements MenuInterface{
 		System.out.println("Please enter the new book's title or N/A for no change:");
 		title = MenuInterface.readString();
 		
-		if(!title.equalsIgnoreCase("N/A")) {
-			bookService.updateBookString(con, bookId, title, "title");
+		if(title.equalsIgnoreCase("N/A")) {
+			title = bookService.getDataS(con, bookId, "title");
 		}
 		
 		checkId = false;
@@ -148,14 +148,11 @@ public class BookMenu implements MenuInterface{
 				System.out.println("Please enter the new author's ID or 0 for no change:");
 				authId = MenuInterface.readInt();
 				
-				if(authId != 0) {
-					checkId = authService.ifNotExists(con, authId, checkId);
-					
-					if (checkId == true) {
-						bookService.updateBookInt(con, bookId, authId, "authId");
-					}
-				} else {
+				if(authId == 0) {
+					authId = bookService.getDataI(con, bookId, "authId");
 					checkId = true;
+				} else {
+					checkId = authService.ifNotExists(con, authId, checkId);
 				}
 			}
 		} catch(InputMismatchException e) {
@@ -171,14 +168,11 @@ public class BookMenu implements MenuInterface{
 				System.out.println("Please enter the new publisher's ID or 0 for no change:");
 				pubId = MenuInterface.readInt();
 				
-				if(pubId != 0) {
-					checkId = pubService.ifNotExists(con, pubId, checkId);
-					
-					if (checkId == true) {
-						bookService.updateBookInt(con, bookId, pubId, "pubId");
-					}
-				} else {
+				if(pubId == 0) {
+					pubId = bookService.getDataI(con, bookId, "pubId");
 					checkId = true;
+				} else {
+					checkId = pubService.ifNotExists(con, pubId, checkId);
 				}
 			}
 		} catch(InputMismatchException e) {
@@ -187,7 +181,7 @@ public class BookMenu implements MenuInterface{
 			return;
 		}
 
-		System.out.println("\nBook updated successfully.");
+		bookService.updateBook(con, bookId, title, authId, pubId);
 		MenuInterface.cont();
 	}
 	

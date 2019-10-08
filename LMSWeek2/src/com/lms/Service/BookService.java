@@ -15,12 +15,10 @@ public class BookService {
 		System.out.println("\nBook created successfully.");
 	}
 	
-	public void updateBookString(Connection con, int bookId, String newData, String fieldName) {
-		bookDAO.writeUpdateBookS(con, bookId, newData, fieldName);
-	}
-	
-	public void updateBookInt(Connection con, int bookId, int newData, String fieldName) {
-		bookDAO.writeUpdateBookI(con, bookId, newData, fieldName);
+	public void updateBook(Connection con, int bookId, String title, int authId, int pubId) {
+		bookDAO.writeUpdateBook(con, bookId, title, authId, pubId);
+		
+		System.out.println("\nBook updated successfully.");
 	}
 	
 	public void deleteBook(Connection con, int bookId) {
@@ -31,6 +29,14 @@ public class BookService {
 	
 	public void viewBook(Connection con) {
 		bookDAO.readViewBook(con);
+	}
+	
+	public String getDataS(Connection con, int id, String fieldName) {
+		return bookDAO.getBookDataS(con, id, fieldName);
+	}
+	
+	public int getDataI(Connection con, int id, String fieldName) {
+		return bookDAO.getBookDataI(con, id, fieldName);
 	}
 	
 	public boolean ifExists(Connection con, int bookId, boolean checkId) {

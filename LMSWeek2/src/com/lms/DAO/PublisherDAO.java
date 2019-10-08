@@ -37,8 +37,30 @@ public class PublisherDAO extends DAO {
 		}
 	}
 	
-	public void writeUpdatePub(Connection con, int pubId, String newData, String fieldName) {
-		super.updateString(con, pubId, newData, fieldName, "publisherId", "tbl_publisher");
+	public void writeUpdatePub(Connection con, int pubId, String pubName, String pubAddress, String pubPhone) {
+		PreparedStatement ps = null;
+		
+		try {
+			String sql = "UPDATE tbl_publisher"
+							+ " SET publisherName = ?, publisherAddress = ?, publisherPhone = ? "
+							+ "WHERE publisherId = ?";
+			
+			ps = con.prepareStatement(sql);
+			ps.setString(1, pubName);
+			ps.setString(2, pubAddress);
+			ps.setString(3, pubPhone);
+			ps.setInt(4, pubId);
+			ps.executeUpdate();
+		 	
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				System.out.println(e);
+			}
+		}
 	}
 	
 	public void writeDeletePub(Connection con, int pubId) {
@@ -69,6 +91,11 @@ public class PublisherDAO extends DAO {
 		} catch (SQLException e) {
 			System.out.print(e);
 		}
+	}
+	
+	//Get data for field that does not need to be updated
+	public String getPubData(Connection con, int id, String fieldName) {
+		return super.getStringData(con, id, "publisherId", fieldName, "tbl_publisher");
 	}
 	
 	public List<Publisher> readPub(Connection con) {

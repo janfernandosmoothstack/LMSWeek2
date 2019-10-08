@@ -108,25 +108,25 @@ public class BorrowerMenu implements MenuInterface {
 		System.out.println("Please enter the new borrower's name:");
 		name = MenuInterface.readString();
 		
-		if(!name.equalsIgnoreCase("N/A")) {
-			borrService.updateBorr(con, cardNo, name, "name");
+		if(name.equalsIgnoreCase("N/A")) {
+			name = borrService.getData(con, cardNo, "name");
 		}	
 		
 		System.out.println("Please enter the new borrower's address:");
 		address = MenuInterface.readString();
 		
-		if(!address.equalsIgnoreCase("N/A")) {
-			borrService.updateBorr(con, cardNo, address, "address");
+		if(address.equalsIgnoreCase("N/A")) {
+			address = borrService.getData(con, cardNo, "address");
 		}	
 		
 		System.out.println("Please enter the new borrower's phone number:");
 		phone = MenuInterface.readString();
 		
-		if(!phone.equalsIgnoreCase("N/A")) {
-			borrService.updateBorr(con, cardNo, phone, "phone");
+		if(phone.equalsIgnoreCase("N/A")) {
+			phone = borrService.getData(con, cardNo, "phone");
 		}
 		
-		System.out.println("\nBorrower updated successfully.");
+		borrService.updateBorr(con, cardNo, name, address, phone);
 		MenuInterface.cont();
 	}
 	

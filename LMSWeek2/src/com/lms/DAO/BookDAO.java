@@ -39,15 +39,44 @@ public class BookDAO extends DAO{
 		}
 	}
 	
-	public void writeUpdateBookS(Connection con, int bookId, String newData, String fieldName) {
-		super.updateString(con, bookId, newData, fieldName, "bookId", "tbl_book");
-	}
-	public void writeUpdateBookI(Connection con, int bookId, int newData, String fieldName) {
-		super.updateInt(con, bookId, newData, fieldName, "bookId", "tbl_book");
+	public void writeUpdateBook(Connection con, int bookId, String title, int authId, int pubId) {
+		PreparedStatement ps = null;
+		
+		try {
+			String sql = "UPDATE tbl_book"
+							+ " SET title = ?, authId = ?, pubId = ? "
+							+ "WHERE bookId = ?";
+			
+			ps = con.prepareStatement(sql);
+			ps.setString(1, title);
+			ps.setInt(2, authId);
+			ps.setInt(3, authId);
+			ps.setInt(4, bookId);
+			ps.executeUpdate();
+		 	
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				System.out.println(e);
+			}
+		}
 	}
 	
 	public void writeDeleteBook(Connection con, int bookId) {
 		super.delete(con, bookId, "bookId", "tbl_book");
+	}
+	
+	//Get data for field that does not need to be updated
+	public String getBookDataS(Connection con, int id, String fieldName) {
+		return super.getStringData(con, id, "bookId", fieldName, "tbl_book");
+	}
+	
+	//Get data for field that does not need to be updated
+	public int getBookDataI(Connection con, int id, String fieldName) {
+		return super.getIntData(con, id, "bookId", fieldName, "tbl_book");
 	}
 	
 	public void readViewBook(Connection con) {

@@ -100,11 +100,11 @@ public class AuthorMenu implements MenuInterface {
 		System.out.println("Please enter the new author's name or N/A for no change:");
 		authorName = MenuInterface.readString();
 		
-		if(!authorName.equalsIgnoreCase("N/A")) {
-			authService.updateAuthor(con, authorId, authorName, "authorName");
+		if(authorName.equalsIgnoreCase("N/A")) {
+			authorName = authService.getAuthName(con, authorId, "authorName");
 		}
 		
-		System.out.println("\nAuthor updated successfully");
+		authService.updateAuthor(con, authorId, authorName);
 		MenuInterface.cont();
 	}
 	

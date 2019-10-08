@@ -15,8 +15,10 @@ public class AuthorService{
 		System.out.println("\nAuthor created successfully.");
 	}
 	
-	public void updateAuthor(Connection con, int authorId, String newData, String fieldName) {
-		authorDAO.writeUpdateAuthor(con, authorId, newData, fieldName);
+	public void updateAuthor(Connection con, int authorId, String authorName) {
+		authorDAO.writeUpdateAuthor(con, authorId, authorName);
+		
+		System.out.println("\nAuthor updated successfully");
 	}
 	
 	public void deleteAuthor(Connection con, int authorId) {
@@ -27,6 +29,10 @@ public class AuthorService{
 	
 	public void viewAuthor(Connection con) {
 		authorDAO.readViewAuthor(con);
+	}
+	
+	public String getAuthName(Connection con, int authorId, String fieldName) {
+		return authorDAO.getAuthorData(con, authorId, fieldName);
 	}
 	
 	public boolean ifExists(Connection con, int authId, boolean checkId) {

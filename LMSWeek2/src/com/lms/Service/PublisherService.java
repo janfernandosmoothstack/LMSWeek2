@@ -15,8 +15,10 @@ public class PublisherService {
 		System.out.println("\nPublisher created successfully.");
 	}
 	
-	public void updatePub(Connection con, int pubId, String newData, String fieldName) {
-		pubDAO.writeUpdatePub(con, pubId, newData, fieldName);
+	public void updatePub(Connection con, int pubId, String pubName, String pubAddress, String pubPhone) {
+		pubDAO.writeUpdatePub(con, pubId, pubName, pubAddress, pubPhone);
+		
+		System.out.println("\nPublisher updated successfully.");
 	}
 	
 	public void deletePub(Connection con, int pubId) {
@@ -27,6 +29,10 @@ public class PublisherService {
 	
 	public void viewPub(Connection con) {
 		pubDAO.readViewPub(con);
+	}
+	
+	public String getData(Connection con, int id, String fieldName) {
+		return pubDAO.getPubData(con, id, fieldName);
 	}
 	
 	public boolean ifExists(Connection con, int pubId, boolean checkId) {

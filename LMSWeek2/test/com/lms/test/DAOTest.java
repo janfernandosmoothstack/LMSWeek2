@@ -24,7 +24,7 @@ class DAOTest {
      con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Iamsherlocked#2.0");
     }
 	
-	@Test
+	/*@Test
 	public void checkUpdateString() throws SQLException {
 		dao.updateString(con, 1, "Test2", "authorName", "authorId", "tbl_author");
 		
@@ -44,9 +44,9 @@ class DAOTest {
         rs.next();        
         
         assertEquals(2, rs.getInt(1), "Pub Id Updated");
-	}*/
+	}
 	
-	/*@Test
+	@Test
 	public void checkDelete() throws SQLException {
 		dao.delete(con, 1, "authorId", "tbl_author");
 		

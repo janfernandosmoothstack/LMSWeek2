@@ -37,12 +37,39 @@ public class BorrowerDAO extends DAO {
 		}
 	}
 	
-	public void writeUpdateBorr(Connection con, int cardNo, String newData, String fieldName) {
-		super.updateString(con, cardNo, newData, fieldName, "cardNo", "tbl_borrower");
+	public void writeUpdateBorr(Connection con, int cardNo, String name, String address, String phone) {
+		PreparedStatement ps = null;
+		
+		try {
+			String sql = "UPDATE tbl_borrower"
+							+ " SET name = ?, address = ?, phone = ? "
+							+ "WHERE cardNo = ?";
+			
+			ps = con.prepareStatement(sql);
+			ps.setString(1, name);
+			ps.setString(2, address);
+			ps.setString(3, phone);
+			ps.setInt(4, cardNo);
+			ps.executeUpdate();
+		 	
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				System.out.println(e);
+			}
+		}
 	}
 	
 	public void writeDeleteBorr(Connection con, int cardNo) {
 		super.delete(con, cardNo, "cardNo", "tbl_borrower");
+	}
+	
+	//Get data for field that does not need to be updated
+	public String getBorrData(Connection con, int id, String fieldName) {
+		return super.getStringData(con, id, "cardNo", fieldName, "tbl_borrower");
 	}
 	
 	public void readViewBorr(Connection con) {
