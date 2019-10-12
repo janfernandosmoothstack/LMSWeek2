@@ -3,7 +3,7 @@ package com.lms.POJO;
 import java.util.Date;
 
 public class BookLoans {
-	Book book = new Book();
+	private Book book;
 	private LibraryBranch branch;
 	private Borrower borrower;
 	private Date dateOut;
